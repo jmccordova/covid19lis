@@ -16,7 +16,7 @@ class Address {
 	FacilityType facilityType 	// health facility, closed setting, market, home, international travel, school, transpo, workplace, local travel, social gathering, others
 	Date dateVisited
 
-	static belongsTo = [case: Case]
+	static belongsTo = [patientCase: PatientCase]
     static constraints = {
     }
 }

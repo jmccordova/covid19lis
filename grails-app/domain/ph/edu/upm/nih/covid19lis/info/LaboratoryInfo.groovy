@@ -1,7 +1,7 @@
 package ph.edu.upm.nih.covid19lis.info
 
 import ph.edu.upm.nih.Office
-
+import ph.edu.upm.nih.covid19lis.patient.PatientCase
 class LaboratoryInfo {
 
 	Date dateCreated
@@ -17,7 +17,7 @@ class LaboratoryInfo {
 	String otherLabResult
 	Date dateReleased
 
-	static belongsTo = [case: Case]
+	static belongsTo = [patientCase: PatientCase]
     static constraints = {
     	result nullable: false, blank: false, default: LabResult.PENDING
     }

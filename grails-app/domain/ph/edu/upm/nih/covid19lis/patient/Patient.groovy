@@ -20,7 +20,7 @@ class Patient extends Person {
 	
 
 
-	static hasMany = [addresses: Address, cases: Case]
+	static hasMany = [addresses: Address, cases: PatientCase]
     static constraints = {
     }
 

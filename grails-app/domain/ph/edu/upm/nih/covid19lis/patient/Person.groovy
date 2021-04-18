@@ -1,6 +1,7 @@
 package ph.edu.upm.nih.covid19lis.patient
 
 import ph.edu.upm.nih.FacilityType
+
 class Person {
 
 	Date dateCreated

@@ -3,7 +3,7 @@ package ph.edu.upm.nih.covid19lis.patient
 import ph.edu.upm.nih.covid19lis.info.ClinicalInfo
 import ph.edu.upm.nih.covid19lis.info.LaboratoryInfo
 
-class Case {
+class PatientCase {
 	
 	Date dateCreated
 	Date lastUpdated
@@ -68,7 +68,7 @@ class Case {
 	Date dateArvlDom
 
 	static hasOne = [clinicalTest: ClinicalInfo]
-	static hasMany = [labTests: LaboratoryInfo, placesVisited: Address, contacts: Person]
+	static hasMany = [labTests: LaboratoryInfo, placesVisited: Address/*, contacts: Person*/]
     static constraints = {
     }
 }

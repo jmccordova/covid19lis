@@ -1,5 +1,6 @@
 package ph.edu.upm.nih.covid19lis.info
 
+import ph.edu.upm.nih.covid19lis.patient.PatientCase
 class ClinicalInfo {
 
 	Date dateCreated
@@ -24,8 +25,10 @@ class ClinicalInfo {
 	LungUSResult lungUSResult
 	String lungUSOtherResult
 
+	static belongsTo = [patientCase: PatientCase]
+	// Enum Symptom and Enum Comorbidity
+	static hasMany = [symptoms: Symptom, comorbidities: Comorbidity]	
 
-	static hasMany = [symptoms: Symptom, comorbidities: Comorbity]	// Enum Symptom and Enum Comorbidity
     static constraints = {
     }
 }
