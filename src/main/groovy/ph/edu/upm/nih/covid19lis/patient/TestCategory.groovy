@@ -3,7 +3,7 @@ package ph.edu.upm.nih.covid19lis.patient
 public enum TestCategory {
 
     A("Individuals with severe/critical symptoms and relevant history of travel and/or contact"),
-    B("Individuals with mild symptoms and relevant history of travel and/or contact, and considered vulnerable. Vulnerable populations include those elderly and with preexisting medical conditions that predispose them to severe presentation and complications of COVID-19"),
+    B("Individuals with mild symptoms and relevant history of travel and/or contact, and considered vulnerable"),
     C("Individuals with mild symptoms, and relevant history of travel and/or contact"),
     D("ndividuals with no symptoms but with relevant history of travel and/or contact or high risk of exposure"),
     E("Frontliners indirectly involved in health care provision in the response against COVID-19"),

@@ -1,4 +1,4 @@
-package ph.edu.upm.nih.covid19lis.patient
+package ph.edu.upm.nih
 
 public enum CivilStatus {
 	SINGLE ("Single"),

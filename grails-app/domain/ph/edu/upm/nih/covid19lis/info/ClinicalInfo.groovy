@@ -7,28 +7,61 @@ class ClinicalInfo {
 	Date lastUpdated
 
 	// 12. Clinical Information
-	Date dateIllnessOnset
-	Boolean isAsymptomatic
 	Integer bodyTemp
 	String otherSymptoms
-	Boolean isPregnant
-	String lmp							// Last Menstrual Period. Available if isPregnant is true
-	Boolean isHighRiskPregnancy			// Available if isPregnant is true
-	Boolean hasSARI						// Sever Acute Respiratory Illness
 	Boolean hasChestRad
+	Date dateChestRadTest
 	ChestRadResult chestRadResult
 	String chestRadOtherResult
+	Date dateChestRadResult
 	Boolean hasChestCT
+	Date dateChestCTTest
 	ChestCTResult chestCTResult
 	String chestCTOtherResult
+	Date dateChestCTResult
 	Boolean hasLungUS
+	Date dateLungUSTest
 	LungUSResult lungUSResult
 	String lungUSOtherResult
+	Date dateLungUSResult
 
 	static belongsTo = [patientCase: PatientCase]
 	// Enum Symptom and Enum Comorbidity
-	static hasMany = [symptoms: Symptom, comorbidities: Comorbidity]	
+	static hasMany = [symptoms: Symptom]	
 
-    static constraints = {
+    static constraints = { 
+    	bodyTemp nullable: true, blank: true
+    	otherSymptoms nullable: true, blank: true
+    	dateChestRadTest nullable: true, blank: true
+    	chestRadResult nullable: true, blank: true
+		chestRadOtherResult nullable: true, blank: true
+		dateChestRadResult nullable: true, blank: true
+		dateChestCTTest nullable: true, blank: true
+		chestCTResult nullable: true, blank: true
+		chestCTOtherResult nullable: true, blank: true
+		dateChestCTResult nullable: true, blank: true
+		dateLungUSTest nullable: true, blank: true
+		lungUSResult nullable: true, blank: true
+		lungUSOtherResult nullable: true, blank: true
+		dateLungUSResult nullable: true, blank: true
+		
+		patientCase nullable: false
+		symptoms nullable: true
+    }
+
+    def getAllSymptoms() {
+    	def s = ""
+    	symptoms.each {
+    		s += it + ', '
+    	}
+
+    	s += otherSymptoms
+    	s
+    }
+
+    def getCorrectChestRadResult() {
+    	def result = chestRadResult == ChestRadResult.OTHER ? chestRadOtherResult : chestRadResult
+
+    	result
     }
 }

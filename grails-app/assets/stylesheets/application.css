@@ -13,3 +13,11 @@
 *= require mobile
 *= require_self
 */
+
+.view-only {
+	pointer-events: none;
+}
+
+.hidden {
+	display: none;
+}

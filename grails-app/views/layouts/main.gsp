@@ -10,7 +10,7 @@
     <asset:link rel="icon" href="favicon.ico" type="image/x-ico"/>
 
     <asset:stylesheet src="application.css"/>
-
+    <asset:javascript src="jquery-3.3.1.min.js" />
     <g:layoutHead/>
 </head>
 
@@ -65,6 +65,6 @@
 </div>
 
 <asset:javascript src="application.js"/>
-
+    
 </body>
 </html>

@@ -1,7 +1,6 @@
 package ph.edu.upm.nih.covid19lis.info
 
 public enum Symptom {
-	ASYMPTOMATIC ("Asymptomatic"),
 	FEVER ("Fever"),
 	COUGH ("Cough"),
 	WEAKNESS ("General Weakness"),
