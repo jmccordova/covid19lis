@@ -1,9 +1,9 @@
-package ph.edu.upm.nih.covid19lis.info
+package ph.edu.upm.nih
 
 import grails.testing.gorm.DomainUnitTest
 import spock.lang.Specification
 
-class LaboratoryInfoSpec extends Specification implements DomainUnitTest<LaboratoryInfo> {
+class StaffSpec extends Specification implements DomainUnitTest<Staff> {
 
     def setup() {
     }
