@@ -6,8 +6,7 @@ public enum LabTest {
 	PCR_ON ("RT-PCR (OPS and NPS)"),
 	PCR_OTHER ("RT-PCR (Other specimen)"),
 	ANTIGEN ("Antigen Test"),
-	ANTIBODY ("Antibody Test"),
-	OTHERS ("Others")
+	ANTIBODY ("Antibody Test")
 
 	final String value
 

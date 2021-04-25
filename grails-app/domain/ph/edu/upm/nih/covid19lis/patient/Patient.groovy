@@ -44,8 +44,8 @@ class Patient extends Person {
 
 	static hasMany = [addresses: Address, cases: PatientCase, comorbidities: Comorbidity]
     static constraints = {
-    	patientId nullable: true, blank: true
-    	philHealthNum nullable: true, blank: true
+    	patientId nullable: true, blank: true, unique: true
+    	philHealthNum nullable: true, blank: true, unique: true
     	birthday nullable: false, blank: false
     	sex nullable: false, blank: false
     	civilStatus nullable: false, blank: false

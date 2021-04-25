@@ -84,35 +84,31 @@
             </g:else>
 
             <h2>Laboratory Tests</h2>
-                <table class="table">
+            <g:if test="${patientCaseInstance?.labTests}">
+                <table>
                     <thead>
+                        <th>Type</th>
                         <th>Date Collected</th>
-                        <th>Test</th>
-                        <th>Current Lab</th>
+                        <th>Sample ID</th>
+                        <th>Status</th>
                         <th>Result</th>
-                        <th>Date Released</th>
-                        <th></th>
                     </thead>
                     <tbody>
                         <g:each in="${patientCaseInstance?.labTests}">
                             <tr>
+                                <td>${it?.labTest}</td>
                                 <td><g:formatDate format="MMMM dd, YYYY" date="${it?.dateCollected}"/></td>
-                                <td>${it?.appropLabTest}</td>
-                                <td>${it?.laboratory?.toString()}</td>
-                                <td>${it?.appropLabResult}</td>
-                                <td><g:formatDate format="MMMM dd, YYYY" date="${it?.dateReleased}"/></td>
-                                <td></td>
+                                <td>${it?.specimenID}</td>
+                                <td>${it?.status}</td>
+                                <td>${it?.labResult} <small>Released: <g:formatDate format="MMMM dd, YYYY" date="${it?.dateReleased}"/></small></td>
                             </tr>
                         </g:each>
                     </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="4">
-                                <g:link controller="laboratoryInfo" action="create" params="[patientCase: patientCaseInstance?.id]">Add</g:link>
-                            </td>
-                        </tr>
-                    </tfoot>
                 </table>
+            </g:if>
+            <g:else>
+                <g:link controller="specimen" action="create" params="[patientCase: patientCaseInstance?.id]">Add</g:link>
+            </g:else>
             </fieldset>
 
             <g:form resource="${this.patientCaseInstance}" method="DELETE">

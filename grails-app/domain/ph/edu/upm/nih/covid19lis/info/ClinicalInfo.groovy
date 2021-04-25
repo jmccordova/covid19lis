@@ -52,7 +52,7 @@ class ClinicalInfo {
     def getAllSymptoms() {
     	def s = ""
     	symptoms.each {
-    		s += it + ', '
+    		s += it.toString() + ', '
     	}
 
     	s += otherSymptoms

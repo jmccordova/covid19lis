@@ -27,7 +27,6 @@
             </g:hasErrors>
             <g:form resource="${this.clinicalInfo}" method="POST">
                 <fieldset class="form">
-                    <g:hiddenField name="patientCase.id" value="${params.patientCase}" />
                     <g:render template="form" />
                 </fieldset>
                 <fieldset class="buttons">

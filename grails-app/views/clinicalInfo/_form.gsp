@@ -112,7 +112,7 @@
 	<label for="dateChestCTResult">
 		Release Date of Result
 	</label>
-	<g:datePicker name="dateChestCTResult" id="dateChestCTTest" value="${clinicalInfoInstance?.dateChestCTResult}" precision="day" disabled="${!clinicalInfoInstance?.hasChestCT}" />
+	<g:datePicker name="dateChestCTResult" id="dateChestCTResult" value="${clinicalInfoInstance?.dateChestCTResult}" precision="day" disabled="${!clinicalInfoInstance?.hasChestCT}" />
 </div>
 
 <div class="fieldcontain required">

@@ -1,7 +1,7 @@
 package ph.edu.upm.nih.covid19lis.patient
 
 import ph.edu.upm.nih.covid19lis.info.ClinicalInfo
-import ph.edu.upm.nih.covid19lis.info.LaboratoryInfo
+import ph.edu.upm.nih.covid19lis.info.Specimen
 import ph.edu.upm.nih.Address
 class PatientCase {
 	
@@ -68,13 +68,13 @@ class PatientCase {
 
 	static belongsTo = [patient: Patient]
 	static hasOne = [clinicalTest: ClinicalInfo]
-	static hasMany = [labTests: LaboratoryInfo, placesVisited: Address/*, contacts: Person*/]
+	static hasMany = [labTests: Specimen, placesVisited: Address/*, contacts: Person*/]
     
     static constraints = {
     	patient nullable: false
 
     	dateInterviewed nullable: false, blank: false
-    	patientCaseNum nullable: true, blank: true		// Temporary. A case number shall be auto generated.
+    	patientCaseNum nullable: true, blank: true, unique: true		// Temporary. A case number shall be auto generated.
     	clientType nullable: false
     	testCategory nullable: false
 
