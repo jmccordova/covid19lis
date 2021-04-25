@@ -1,12 +1,14 @@
 buildscript {
     repositories {
         maven { url "https://repo.grails.org/grails/core" }
+        // maven { url "https://plugins.gradle.org/m2/" }  // fix Win 10 20H2 Java error
     }
     dependencies {
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
         classpath "gradle.plugin.com.github.erdi.webdriver-binaries:webdriver-binaries-gradle-plugin:2.0"
         classpath "org.grails.plugins:hibernate5:7.0.4"
         classpath "com.bertramlabs.plugins:asset-pipeline-gradle:3.2.4"
+        // classpath "gradle.plugin.com.github.viswaramamoorthy:gradle-util-plugins:0.1.0-RELEASE"   // fix Win 10 20H2 Java error
     }
 }
 
@@ -20,9 +22,11 @@ apply plugin:"org.grails.grails-web"
 apply plugin:"com.github.erdi.webdriver-binaries"
 apply plugin:"com.bertramlabs.asset-pipeline"
 apply plugin:"org.grails.grails-gsp"
+// apply plugin: "com.github.ManifestClasspath"    // fix Win 10 20H2 Java error
 
 repositories {
     maven { url "https://repo.grails.org/grails/core" }
+    maven { url "https://mvnrepository.com/artifact" }
 }
 
 configurations {
@@ -33,7 +37,7 @@ configurations {
 }
 
 dependencies {
-    developmentOnly("org.springframework.boot:spring-boot-devtools")
+    // developmentOnly("org.springframework.boot:spring-boot-devtools")
     compile "org.springframework.boot:spring-boot-starter-logging"
     compile "org.springframework.boot:spring-boot-autoconfigure"
     compile "org.grails:grails-core"
@@ -72,6 +76,18 @@ dependencies {
     testCompile "org.seleniumhq.selenium:selenium-support:3.14.0"
     testRuntime "org.seleniumhq.selenium:selenium-chrome-driver:3.14.0"
     testRuntime "org.seleniumhq.selenium:selenium-firefox-driver:3.14.0"
+    // MySQL
+    runtime 'mysql:mysql-connector-java:5.1.29'
+    // Spring Security
+    compile 'org.grails.plugins:spring-security-core:4.0.3'
+    // Email
+    compile 'org.grails.plugins:asynchronous-mail:2.0.2'
+    // Report
+    compile 'com.lowagie:itext:4.2.2'
+    compile 'net.sf.jasperreports:jasperreports:6.16.0'
+    // Audit log
+    compile 'org.grails.plugins:audit-trail:3.0.11'
+
 }
 
 bootRun {
