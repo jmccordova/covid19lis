@@ -2,10 +2,13 @@ package ph.edu.upm.nih.covid19lis.patient
 
 import grails.validation.ValidationException
 import static org.springframework.http.HttpStatus.*
+import org.springframework.security.access.annotation.Secured
 
+@Secured(['IS_AUTHENTICATED_FULLY'])
 class PatientController {
 
     PatientService patientService
+    def codeGeneratorService
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
@@ -29,6 +32,7 @@ class PatientController {
         }
 
         try {
+            patient.patientNum = codeGeneratorService.getPatientNum()
             patientService.save(patient)
         } catch (ValidationException e) {
             respond patient.errors, view:'create'

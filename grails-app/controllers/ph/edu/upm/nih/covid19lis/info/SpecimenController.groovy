@@ -2,12 +2,16 @@ package ph.edu.upm.nih.covid19lis.info
 
 import grails.validation.ValidationException
 import static org.springframework.http.HttpStatus.*
+import org.springframework.security.access.annotation.Secured
 
+@Secured(['IS_AUTHENTICATED_FULLY'])
 class SpecimenController {
 
     SpecimenService specimenService
+    def codeGeneratorService
+    def springSecurityService
 
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE", decide: "POST"]
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
@@ -18,10 +22,12 @@ class SpecimenController {
         render view: "show", model: [specimenInstance: specimenService.get(id)]
     }
 
+    @Secured(['ROLE_SUPERADMIN', 'ROLE_ENCODER'])
     def create() {
         respond new Specimen(params)
     }
 
+    @Secured(['ROLE_SUPERADMIN', 'ROLE_ENCODER'])
     def save(Specimen specimen) {
         if (specimen == null) {
             notFound()
@@ -29,8 +35,10 @@ class SpecimenController {
         }
 
         try {
+            specimen.specimenNum = codeGeneratorService.getSpecimenNum(specimen.patientCase)
             specimenService.save(specimen)
         } catch (ValidationException e) {
+            println e
             render view: "create", model: [specimenInstance: specimen]
             return
         }
@@ -68,6 +76,79 @@ class SpecimenController {
             }
             '*'{ respond specimen, [status: OK] }
         }
+    }
+    
+    @Secured(['ROLE_SUPERADMIN', 'ROLE_MT', 'ROLE_QA', 'ROLE_MB', 'ROLE_PATH'])
+    def addResult(Specimen specimenInstance) {
+        if (specimenInstance == null) {
+            notFound()
+            return
+        }
+
+        render view: 'addResult', model: [specimenInstance: specimenInstance]
+    }
+
+    @Secured(['ROLE_SUPERADMIN', 'ROLE_MT', 'ROLE_QA', 'ROLE_MB', 'ROLE_PATH'])
+    def decide(Specimen specimenInstance) {
+        if (specimenInstance == null) {
+            notFound()
+            return
+        }
+
+        def message
+
+        switch(params.decision) {
+            case 'acceptSample':
+                message = 'Sample accepted.'
+                specimenInstance?.status = SpecimenStatus.FOR_PROCESSING
+                break
+            case 'rejectSample':
+                message = 'Sample rejected.'
+                specimenInstance?.status = SpecimenStatus.SAMPLE_REJECTED
+                specimenInstance?.labResult = LabResult.REJECT
+                break
+            case 'acceptMT1':
+                message = 'Result accepted.'
+                specimenInstance?.approverMT1 = springSecurityService?.currentUser
+                specimenInstance?.status = SpecimenStatus.FOR_VERIFICATION_MT2
+                break
+            case 'acceptMT2':
+                message = 'Result accepted.'
+                specimenInstance?.approverMT2 = springSecurityService?.currentUser
+                specimenInstance?.status = SpecimenStatus.FOR_VERIFICATION_QA
+                break
+            case 'acceptQA':
+                message = 'Result accepted.'
+                specimenInstance?.approverQA = springSecurityService?.currentUser
+                specimenInstance?.status = SpecimenStatus.FOR_VERIFICATION_MB
+                break
+            case 'acceptMB':
+                message = 'Result accepted.'
+                specimenInstance?.approverMB = springSecurityService?.currentUser
+                specimenInstance?.status = SpecimenStatus.FOR_VERIFICATION_PATH
+                break
+            case 'acceptPATH':
+                message = 'Result accepted.'
+                specimenInstance?.approverPATH = springSecurityService?.currentUser
+                specimenInstance?.status = SpecimenStatus.RESULT_ACCEPTED
+                break
+            case 'rejectResult':
+                message = 'Result not accepted.'
+                specimenInstance?.status = SpecimenStatus.RESULT_REJECTED
+                specimenInstance?.labResult = LabResult.REJECT
+                break
+            default:
+                break
+        }
+
+        if(specimenService.save(specimenInstance)) {
+            flash.message = message
+        } else {
+            flash.error = "Something went wrong. Try again later."
+        }
+
+        redirect action: 'index'
+        return
     }
 
     def delete(Long id) {

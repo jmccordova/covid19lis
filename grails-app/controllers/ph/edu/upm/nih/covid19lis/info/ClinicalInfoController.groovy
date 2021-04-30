@@ -2,7 +2,9 @@ package ph.edu.upm.nih.covid19lis.info
 
 import grails.validation.ValidationException
 import static org.springframework.http.HttpStatus.*
+import org.springframework.security.access.annotation.Secured
 
+@Secured(['IS_AUTHENTICATED_FULLY'])
 class ClinicalInfoController {
 
     ClinicalInfoService clinicalInfoService
