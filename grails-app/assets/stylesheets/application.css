@@ -11,8 +11,11 @@
 *= require grails
 *= require main
 *= require mobile
+*= require select2.min
+*= require jquery.dataTables.min
 *= require_self
 */
+
 
 .view-only {
 	pointer-events: none;
