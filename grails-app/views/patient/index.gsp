@@ -19,21 +19,36 @@
                 <div class="message" role="status">${flash.message}</div>
             </g:if>
 
-            <table class="table">
+            <table id="patientList" class="table export-table">
                 <thead>
                     <th>ID</th>
                     <th>Name</th>
                     <th>PhilHealth No.</th>
-                    <th>Current Status</th>
-                    <th></th>
+                    <th>Current Case</th>
+                    <th>Result</th>
+                    <th class="not-for-export"></th>
                 </thead>
                 <tbody>
                     <g:each in="${patientList}">
                         <tr>
-                            <td>${it?.patientId}</td>
+                            <td>${it?.patientNum}</td>
                             <td>${it?.getFullName(true)}</td>
                             <td>${it?.philHealthNum}</td>
-                            <td></td>
+                            <td>
+                                <% def patientCaseInstance = !it?.cases?.isEmpty() ? it?.cases?.last() : null %>
+                                <g:link controller="patientCase" action="show" id="${patientCaseInstance?.id}">
+                                    ${patientCaseInstance?.caseNum}
+                                </g:link>
+                                <g:if test="${patientCaseInstance}">
+                                    <small>Added <g:formatDate format="MMMM dd, YYYY" date="${patientCaseInstance?.dateCreated}"/></small>
+                                </g:if>
+                            </td>
+                            <td>
+                                <% def laboratoryInfoInstance = !patientCaseInstance?.labTests?.isEmpty() ? patientCaseInstance?.labTests?.last() : null %>    
+                                <g:if test="${laboratoryInfoInstance}">
+                                    ${laboratoryInfoInstance?.labResult}
+                                </g:if>
+                            </td>
                             <td>
                                 <g:link action="show" id="${it?.id}">View</g:link>
                                 <g:link action="edit" id="${it?.id}">Edit</g:link>
@@ -42,10 +57,6 @@
                     </g:each>
                 </tbody>
             </table>
-
-            <div class="pagination">
-                <g:paginate total="${patientCount ?: 0}" />
-            </div>
         </div>
     </body>
 </html>

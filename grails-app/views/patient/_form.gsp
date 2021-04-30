@@ -202,7 +202,7 @@
 	<label for="comorbidities">
 		Commorbidities
 	</label>
-	<g:select name="comorbidities" id="comorbidities" class="validate" value="${patientInstance?.comorbidities}" from="${ph.edu.upm.nih.covid19lis.info.Comorbidity}" optionKey="key" multiple="" />
+	<g:select name="comorbidities" id="comorbidities" class="validate select2" value="${patientInstance?.comorbidities}" from="${ph.edu.upm.nih.covid19lis.info.Comorbidity}" optionKey="key" multiple="" />
 </div>
 
 <g:javascript>

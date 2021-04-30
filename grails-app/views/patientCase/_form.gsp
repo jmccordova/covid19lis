@@ -2,8 +2,8 @@
     <label for="patient.id">
         Patient
     </label>
-    <% def patientID = patientCaseInstance ? patientCaseInstance?.patient.id : params.long('patient') %>
-    <g:select name="patient.id" id="patient.id" class="validate" value="${patientID}" from="${ph.edu.upm.nih.covid19lis.patient.Patient.list()}" optionKey="id" optionValue="fullName"  noSelection="['':'Select Patient']" required="${patientID == null}"/>
+    <% def patientNum = patientCaseInstance ? patientCaseInstance?.patient.id : params.long('patient') %>
+    <g:select name="patient.id" id="patient.id" class="validate select2" value="${patientNum}" from="${ph.edu.upm.nih.covid19lis.patient.Patient.list()}" optionKey="id" optionValue="fullName"  noSelection="['':'Select Patient']" required="${patientNum == null}"/>
 </div>
 
 <h2>Preliminary</h2>
@@ -28,7 +28,7 @@
 		Testing Category
 		<span class="required-indicator">*</span>
 	</label>
-	<g:select name="testCategory" id="testCategory" class="validate" value="${patientCaseInstance?.testCategory}" from="${ph.edu.upm.nih.covid19lis.patient.TestCategory}" optionKey="key" noSelection="['':'Select Category']" required=""/>
+	<g:select name="testCategory" id="testCategory" class="validate select2" value="${patientCaseInstance?.testCategory}" from="${ph.edu.upm.nih.covid19lis.patient.TestCategory}" optionKey="key" noSelection="['':'Select Category']" required=""/>
 </div>
 
 <h2>Consultation and Admission</h2>
@@ -116,7 +116,7 @@
 		Case Classification
 		<span class="required-indicator">*</span>
 	</label>
-	<g:select name="caseClassification" id="caseClassification" class="validate" value="${patientCaseInstance?.caseClassification}" from="${ph.edu.upm.nih.covid19lis.patient.CaseClassification}" optionKey="key" noSelection="['':'Select Disposition']" required=""/>
+	<g:select name="caseClassification" id="caseClassification" class="validate" value="${patientCaseInstance?.caseClassification}" from="${ph.edu.upm.nih.covid19lis.patient.CaseClassification}" optionKey="key" noSelection="['':'Select Classification']" required=""/>
 </div>
 
 <h2>Case Investigation</h2>
@@ -213,7 +213,7 @@
 		History of exposure to known probable and/or confirmed COVID-19 case 14 days before the onset of signs and symptoms? OR If Asymptomatic, 14 days before swabbing or specimen collection?
 		<span class="required-indicator">*</span>
 	</label>
-	<g:select name="closeContact" id="closeContact" class="validate" value="${patientCaseInstance?.closeContact}" from="${['YES', 'NO', 'UNKNOWN']}" noSelection="['':'Select Decision']" required="" />
+	<g:select name="closeContact" id="closeContact" class="validate" value="${patientCaseInstance?.closeContact}" from="${['YES', 'NO', 'UNKNOWN']}" noSelection="['':'Select Answer']" required="" />
 </div>
 
 <div class="fieldcontain required">
@@ -228,7 +228,7 @@
 		Have you been in a place with a known COVID-19 community transmission 14 days before the onset of signs and symptoms? OR If Asymptomatic, 14 days before swabbing or specimen collection?
 		<span class="required-indicator">*</span>
 	</label>
-	<g:select name="highRiskPlace" id="highRiskPlace" class="validate" value="${patientCaseInstance?.highRiskPlace}" from="${['YES', 'NO', 'UNKNOWN']}" noSelection="['':'Select Decision']" required="" />
+	<g:select name="highRiskPlace" id="highRiskPlace" class="validate" value="${patientCaseInstance?.highRiskPlace}" from="${['YES', 'NO', 'UNKNOWN']}" noSelection="['':'Select Answer']" required="" />
 </div>
 
 <h3>History of Travel</h3>
@@ -337,6 +337,11 @@
 			$("[name='prevAdmission'], [name*='prevAdmission_'], #prevAdmissionFacility").prop('disabled', !on).prop('required', on)
 		})
 
+		$("#dispositionType").change(function() {
+			var on = $("#dispositionType").val().indexOf('ADMIT') > -1
+			$("#dispositionFacility").prop('disabled', !on).prop('required', on)
+		})
+
 		$("#hasPrevTest").click(function(){
 			var on = $(this).is(':checked')
 			$("[name*='datePrevLabTest'], #prevLabTestName, #totalPrevLabTest").prop('disabled', !on).prop('required', on)
@@ -360,11 +365,6 @@
 		$("#healthStatus").change(function() {
 			var data = $(this).val()
 			$("#isAsymptomatic").prop("checked", data == 'ASYMPTOMATIC')
-		})
-
-		$("#dispositionType").change(function() {
-			var data = $(this).val()
-			$("#dispositionFacility").prop("disabled", data.indexOf('ADMIT') == -1)
 		})
 	})
 </g:javascript>

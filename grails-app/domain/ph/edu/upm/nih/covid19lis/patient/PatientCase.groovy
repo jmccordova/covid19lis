@@ -7,7 +7,7 @@ class PatientCase {
 	
 	Date dateCreated
 	Date lastUpdated
-	String patientCaseNum
+	String caseNum
 	
 	// Part 1. Patient Information
 	// 1. Testing category
@@ -74,7 +74,7 @@ class PatientCase {
     	patient nullable: false
 
     	dateInterviewed nullable: false, blank: false
-    	patientCaseNum nullable: true, blank: true, unique: true		// Temporary. A case number shall be auto generated.
+    	caseNum nullable: true, blank: true, unique: true		// Temporary. A case number shall be auto generated.
     	clientType nullable: false
     	testCategory nullable: false
 

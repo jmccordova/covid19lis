@@ -98,7 +98,7 @@
                             <tr>
                                 <td>${it?.labTest}</td>
                                 <td><g:formatDate format="MMMM dd, YYYY" date="${it?.dateCollected}"/></td>
-                                <td>${it?.specimenID}</td>
+                                <td>${it?.specimenNum}</td>
                                 <td>${it?.status}</td>
                                 <td>${it?.labResult} <small>Released: <g:formatDate format="MMMM dd, YYYY" date="${it?.dateReleased}"/></small></td>
                             </tr>
@@ -107,7 +107,9 @@
                 </table>
             </g:if>
             <g:else>
-                <g:link controller="specimen" action="create" params="[patientCase: patientCaseInstance?.id]">Add</g:link>
+                <sec:ifAnyGranted roles="ROLE_SUPERADMIN, ROLE_ENCODER">
+                    <g:link controller="specimen" action="create" params="[patientCase: patientCaseInstance?.id]">Add</g:link>
+                </sec:ifAnyGranted>
             </g:else>
             </fieldset>
 

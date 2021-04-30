@@ -8,7 +8,8 @@ public enum LabResult {
 	MP_GN ("IgM (+) IgG (-)"),
 	MN_GP ("IgM (-) IgG (+)"),
 	MP_GP ("IgM (+) IgG (+)"),
-	MN_GN ("IgM (-) IgG (-)")
+	MN_GN ("IgM (-) IgG (-)"),
+	REJECT ("Rejected")
 
 	final String value
 

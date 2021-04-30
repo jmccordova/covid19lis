@@ -18,11 +18,47 @@
             <g:if test="${flash.message}">
                 <div class="message" role="status">${flash.message}</div>
             </g:if>
-            <f:table collection="${patientCaseList}" />
 
-            <div class="pagination">
-                <g:paginate total="${patientCaseCount ?: 0}" />
-            </div>
+            <span>*Tentative <strike>Rejected</strike></span>
+            <table id="patientCaseList" class="table export-table">
+                <thead>
+                    <th>ID</th>
+                    <th>Date Added</th>
+                    <th>Patient Name</th>
+                    <th>Current Status</th>
+                    <th class="not-for-export"></th>
+                </thead>
+                <tbody>
+                    <g:each in="${patientCaseList}">
+                        <tr>
+                            <td>${it?.caseNum}</td>
+                            <td><g:formatDate format="MMMM dd, YYYY" date="${it?.dateCreated}"/></td>
+                            <td>${it?.patient?.getFullName(true)}</td>
+                            <td>
+                                <% def laboratoryInfoInstance = it?.labTests?.isEmpty() ? null : it?.labTests?.last() %>
+                                
+                                <g:if test="${ laboratoryInfoInstance?.status == ph.edu.upm.nih.covid19lis.info.SpecimenStatus.RESULT_REJECTED}">
+                                    <strike>
+                                </g:if>
+
+                                ${laboratoryInfoInstance?.labResult}
+                                <g:if test="${laboratoryInfoInstance?.status != ph.edu.upm.nih.covid19lis.info.SpecimenStatus.RESULT_ACCEPTED || laboratoryInfoInstance?.status != ph.edu.upm.nih.covid19lis.info.SpecimenStatus.RESULT_REJECTED}">
+                                    <strong>*</strong>
+                                </g:if>
+
+                                <g:if test="${ laboratoryInfoInstance?.status == ph.edu.upm.nih.covid19lis.info.SpecimenStatus.RESULT_REJECTED}">
+                                    </strike>
+                                </g:if>
+                            </td>
+                            <td></td>
+                            <td>
+                                <g:link action="show" id="${it?.id}">View</g:link>
+                                <g:link action="edit" id="${it?.id}">Edit</g:link>
+                            </td>
+                        </tr>
+                    </g:each>
+                </tbody>
+            </table>
         </div>
     </body>
 </html>

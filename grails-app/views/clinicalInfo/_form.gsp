@@ -5,7 +5,7 @@
     <% 
     	def patientCaseInstance = clinicalInfoInstance ? clinicalInfoInstance?.patientCase : ph.edu.upm.nih.covid19lis.patient.PatientCase.findById(params.long('patientCase'))
     %>
-    <g:select name="patientCase.id" id="patientCase.id" class="validate" value="${patientCaseInstance?.id}" from="${ph.edu.upm.nih.covid19lis.patient.PatientCase.list()}" optionKey="id" optionValue="patientCaseNum"  noSelection="['':'Select Case No.']" disabled="${patientCaseInstance != null}" />
+    <g:select name="patientCase.id" id="patientCase.id" class="validate" value="${patientCaseInstance?.id}" from="${ph.edu.upm.nih.covid19lis.patient.PatientCase.list()}" optionKey="id" optionValue="caseNum"  noSelection="['':'Select Case No.']" required=""/>
 </div>
 
 %{-- Make the values change depending on the patientCase --}%
@@ -13,8 +13,8 @@
     <label for="patient.id">
         Patient
     </label>
-    <% def patientID = patientCaseInstance ? patientCaseInstance?.patient.id : params.long('patient') %>
-    <g:select name="patient.id" id="patient.id" class="validate" value="${patientID}" from="${ph.edu.upm.nih.covid19lis.patient.Patient.list()}" optionKey="id" optionValue="fullName"  noSelection="['':'Select Patient']" disabled="${patientID != null}" />
+    <% def patientInstance = patientCaseInstance ? patientCaseInstance?.patient : ph.edu.upm.nih.covid19lis.patient.Patient.findById(params.long('patient')) %>
+    <g:select name="patient.id" id="patient.id" class="validate" value="${patientInstance?.id}" from="${ph.edu.upm.nih.covid19lis.patient.Patient.list()}" optionKey="id" optionValue="fullName"  noSelection="['':'Select Patient']" disabled="" />
 </div>
 
 <g:if test="${!patientCaseInstance?.isAsymptomatic && patientCaseInstance?.healthStatus != ph.edu.upm.nih.covid19lis.patient.HealthStatus.ASYMPTOMATIC}">
@@ -23,7 +23,7 @@
 		Symptoms
 		<span class="required-indicator">*</span>
 	</label>
-	<g:select name="symptoms" id="symptoms" class="validate" value="${clinicalInfoInstance?.symptoms}" from="${ph.edu.upm.nih.covid19lis.info.Symptom}" optionKey="key" multiple="" required=""/>
+	<g:select name="symptoms" id="symptoms" class="validate select2" value="${clinicalInfoInstance?.symptoms}" from="${ph.edu.upm.nih.covid19lis.info.Symptom}" optionKey="key" multiple="" required=""/>
 </div>
 
 <div class="fieldcontain required">
@@ -161,6 +161,9 @@
 		$("#symptoms").change(function() {
 			var on = ($(this).val().indexOf('FEVER') > -1)
 			$("#bodyTemp").prop('disabled', !on).prop('required', on)
+
+			on = ($(this).val().indexOf('OTHERS') > -1)
+			$("#otherSymptoms").prop('disabled', !on).prop('required', on)
 		})
 
 		$("#hasChestRad").change(function() {

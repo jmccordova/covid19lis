@@ -8,7 +8,7 @@ import ph.edu.upm.nih.FacilityType
 import ph.edu.upm.nih.covid19lis.info.Comorbidity
 class Patient extends Person {
 
-	String patientId
+	String patientNum
 	String philHealthNum			// XX-XXXXXXXXX-X
 
 	// CIF Part 1: Patient Information
@@ -44,7 +44,7 @@ class Patient extends Person {
 
 	static hasMany = [addresses: Address, cases: PatientCase, comorbidities: Comorbidity]
     static constraints = {
-    	patientId nullable: true, blank: true, unique: true
+    	patientNum nullable: false, blank: false, unique: false
     	philHealthNum nullable: true, blank: true, unique: true
     	birthday nullable: false, blank: false
     	sex nullable: false, blank: false
