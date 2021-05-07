@@ -13,66 +13,173 @@
     <asset:javascript src="jquery-3.3.1.min.js" />
     <g:layoutHead/>
 </head>
-
-<body>
-    <div id="spinner" class="spinner">
-        <div class="row">
-            <div class="container">
-                <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-                <div id="spinner-container" class="row">
-                    <div class="col s12 m12 l12">
-                        <div class="progress">
-                            <div class="indeterminate"></div>
+<g:set var="springSecurityService" bean="springSecurityService"/>
+<body class="c-app">
+    <sec:ifLoggedIn>
+        <div class="c-sidebar c-sidebar-dark c-sidebar-fixed c-sidebar-lg-show" id="sidebar">
+            <div class="c-sidebar-brand d-lg-down-none">
+                <div class="c-sidebar-brand-full"></div>
+                <div class="c-sidebar-brand-minimized"></div>
+            </div>
+            <ul class="c-sidebar-nav">
+                <li class="c-sidebar-nav-item">
+                    <g:link class="c-sidebar-nav-link" uri="/">
+                        <span class="c-sidebar-nav-icon cil-home"></span>
+                        Dashboard
+                    </g:link>
+                </li>
+                <li class="c-sidebar-nav-title">Contact Tracing</li>
+                <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
+                    <g:link class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" uri="#">
+                        <span class="c-sidebar-nav-icon cil-group"></span> Patient
+                    </g:link>
+                    <ul class="c-sidebar-nav-dropdown-items">
+                        <li class="c-sidebar-nav-item">
+                            <g:link class="c-sidebar-nav-link" controller="patient" action="index">
+                                <span class="c-sidebar-nav-icon cil-list"></span>
+                                List
+                            </g:link>
+                        </li>
+                        <li class="c-sidebar-nav-item">
+                            <g:link class="c-sidebar-nav-link" controller="patient" action="index">
+                                <span class="c-sidebar-nav-icon cil-notes"></span>
+                                Cases
+                            </g:link>
+                        </li>
+                    </ul>
+                    
+                </li>
+                <li class="c-sidebar-nav-item">
+                    <g:link class="c-sidebar-nav-link" controller="address" action="index">
+                        <span class="c-sidebar-nav-icon cil-location-pin"></span>
+                        Address
+                    </g:link>
+                </li>
+                <li class="c-sidebar-nav-item">
+                    <g:link class="c-sidebar-nav-link" controller="person" action="index">
+                        <span class="c-sidebar-nav-icon cil-contact"></span>
+                        Close Contacts
+                    </g:link>
+                </li>
+                <li class="c-sidebar-nav-title">Laboratory</li>
+                <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
+                    <g:link class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" uri="#">
+                        <span class="c-sidebar-nav-icon cil-share"></span> Export
+                    </g:link>
+                    <ul class="c-sidebar-nav-dropdown-items">
+                        <li class="c-sidebar-nav-item">
+                            <g:link class="c-sidebar-nav-link" uri="#">
+                                <span class="c-sidebar-nav-icon cil-"></span> CIF
+                            </g:link>
+                        </li>
+                    </ul>
+                </li>
+                <li class="c-sidebar-nav-item">
+                    <g:link class="c-sidebar-nav-link" controller="clinicalInfo" action="index">
+                        <span class="c-sidebar-nav-icon cil-hospital"></span>
+                        Clinical Test
+                    </g:link>
+                </li>
+                <li class="c-sidebar-nav-item">
+                    <g:link class="c-sidebar-nav-link" controller="laboratoryInfo" action="index">
+                        <span class="c-sidebar-nav-icon cil-beaker"></span>
+                        Lab Test
+                    </g:link>
+                </li>
+                <li class="c-sidebar-nav-divider"></li>
+                <li class="c-sidebar-nav-title">Admin</li>
+                <li class="c-sidebar-nav-item">
+                    <g:link class="c-sidebar-nav-link" controller="staff" action="index">
+                        <span class="c-sidebar-nav-icon cil-medical-cross"></span>
+                        Staff
+                    </g:link>
+                </li>
+                <li class="c-sidebar-nav-item">
+                    <g:link class="c-sidebar-nav-link" controller="auditLog" action="index">
+                        <span class="c-sidebar-nav-icon cil-spreadsheet"></span>
+                        Audit Log
+                    </g:link>
+                </li>
+            </ul>
+            <button class="c-sidebar-minimizer c-class-toggler" type="button" data-target="_parent" data-class="c-sidebar-minimized"></button>
+        </div>
+    </sec:ifLoggedIn>
+    <div class="c-wrapper">
+        <header class="c-header c-header-light c-header-fixed c-header-with-subheader">
+            <sec:ifLoggedIn>
+                <button class="c-header-toggler c-class-toggler d-lg-none mfe-auto" type="button" data-target="#sidebar" data-class="c-sidebar-show">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <button class="c-header-toggler c-class-toggler mfs-3 d-md-down-none" type="button" data-target="#sidebar" data-class="c-sidebar-lg-show" responsive="true">
+                    <div class="c-icon c-icon-lg">
+                        <span class="cil-menu"></span>
+                    </div>
+                </button>
+            </sec:ifLoggedIn>
+            <a class="c-header-brand d-lg-none" href="#">
+                <asset:image src="logo.png" alt="NIH Logo"/>
+            </a>
+            <ul class="c-header-nav ml-auto mr-4">
+                <li class="c-header-nav-item dropdown">
+                    <a class="c-header-nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                        <div class="c-avatar">
+                            <asset:image class="c-avatar-img" src="person-icon.jpg" alt="${springSecurityService?.currentUser?.username}" />
                         </div>
-                        <h3 class="flow-text">Loading...</h3>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right pt-0">
+                        <sec:ifLoggedIn>
+                        <div class="dropdown-header bg-light py-2">
+                            <strong>Account</strong>
+                        </div>
+                        <g:link class="dropdown-item" controller="staff" action="edit" id="${springSecurityService?.currentUser?.id}">
+                            <span class="c-sidebar-nav-icon cil-pencil"></span> 
+                            Edit
+                        </g:link>
+                        <div class="dropdown-divider"></div>
+                        </sec:ifLoggedIn>
+                        <sec:ifNotLoggedIn>
+                            <g:link class="dropdown-item" controller="login" action="index">
+                                <span class="c-sidebar-nav-icon cil-door"></span>
+                                Login
+                            </g:link>
+                        </sec:ifNotLoggedIn>
+                        <sec:ifLoggedIn>
+                            <g:link class="dropdown-item" controller="staff" action="lock" id="${springSecurityService?.currentUser?.id}">
+                                <span class="c-sidebar-nav-icon cil-lock-locked"></span>
+                                Lock Account
+                            </g:link>
+                            <g:form controller="logout" action="index" method="POST">
+                                <button class="dropdown-item">
+                                    <span class="c-sidebar-nav-icon cil-account-logout"></span>
+                                    Logout
+                                </button>
+                            </g:form>
+                        </sec:ifLoggedIn>                      
+                    </div>
+                </li>
+            </ul>
+        </header> 
+        <div class="c-body">
+            <main class="c-main">
+                <div class="container-fluid">
+                    <g:layoutBody/>
+                </div>
+                <div id="spinner" class="spinner">
+                    <div class="container">
+                        <div id="spinner-container" class="row">
+                            <div class="col s12 m12 l12">
+                                <div class="progress">
+                                    <div class="indeterminate"></div>
+                                </div>
+                                <h3 class="flow-text">Loading...</h3>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </main>
         </div>
+        <footer class="c-footer"></footer>
     </div>
-    <nav class="navbar navbar-expand-lg navbar-dark navbar-static-top" role="navigation">
-        <a class="navbar-brand" href="/#"><asset:image src="grails.svg" alt="Grails Logo"/></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" aria-expanded="false" style="height: 0.8px;" id="navbarContent">
-            <ul class="nav navbar-nav ml-auto">
-                <g:pageProperty name="page.nav"/>
-            </ul>
-        </div>
-
-    </nav>
-
-    <g:layoutBody/>
-
-    <div class="footer row" role="contentinfo">
-        <div class="col">
-            <a href="http://guides.grails.org" target="_blank">
-                <asset:image src="advancedgrails.svg" alt="Grails Guides" class="float-left"/>
-            </a>
-            <strong class="centered"><a href="http://guides.grails.org" target="_blank">Grails Guides</a></strong>
-            <p>Building your first Grails app? Looking to add security, or create a Single-Page-App? Check out the <a href="http://guides.grails.org" target="_blank">Grails Guides</a> for step-by-step tutorials.</p>
-
-        </div>
-        <div class="col">
-            <a href="http://docs.grails.org" target="_blank">
-                <asset:image src="documentation.svg" alt="Grails Documentation" class="float-left"/>
-            </a>
-            <strong class="centered"><a href="http://docs.grails.org" target="_blank">Documentation</a></strong>
-            <p>Ready to dig in? You can find in-depth documentation for all the features of Grails in the <a href="http://docs.grails.org" target="_blank">User Guide</a>.</p>
-
-        </div>
-
-        <div class="col">
-            <a href="https://grails-slack.cfapps.io" target="_blank">
-                <asset:image src="slack.svg" alt="Grails Slack" class="float-left"/>
-            </a>
-            <strong class="centered"><a href="https://grails-slack.cfapps.io" target="_blank">Join the Community</a></strong>
-            <p>Get feedback and share your experience with other Grails developers in the community <a href="https://grails-slack.cfapps.io" target="_blank">Slack channel</a>.</p>
-        </div>
-    </div>
-
     <asset:javascript src="application.js"/>
 </body>
 </html>

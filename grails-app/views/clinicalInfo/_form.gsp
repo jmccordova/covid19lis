@@ -1,6 +1,7 @@
 <div class="fieldcontain required">
     <label for="patientCase.id">
         Case
+		<span class="required-indicator">*</span>
     </label>
     <% 
     	def patientCaseInstance = clinicalInfoInstance ? clinicalInfoInstance?.patientCase : ph.edu.upm.nih.covid19lis.patient.PatientCase.findById(params.long('patientCase'))
@@ -12,6 +13,7 @@
 <div class="fieldcontain required">
     <label for="patient.id">
         Patient
+		<span class="required-indicator">*</span>
     </label>
     <% def patientInstance = patientCaseInstance ? patientCaseInstance?.patient : ph.edu.upm.nih.covid19lis.patient.Patient.findById(params.long('patient')) %>
     <g:select name="patient.id" id="patient.id" class="validate" value="${patientInstance?.id}" from="${ph.edu.upm.nih.covid19lis.patient.Patient.list()}" optionKey="id" optionValue="fullName"  noSelection="['':'Select Patient']" disabled="" />

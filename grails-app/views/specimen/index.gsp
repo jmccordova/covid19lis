@@ -62,18 +62,36 @@
                                             <g:link action="addResult" id="${it?.id}">Add Result</g:link>
                                         </sec:ifAnyGranted>
                                     </g:if>
-                                    <g:if test="${it?.status == ph.edu.upm.nih.covid19lis.info.SpecimenStatus.FOR_VERIFICATION_MT1 && it?.approverMT1 != springSecurityService?.currentUser}">
+                                    <g:elseif test="${it?.status == ph.edu.upm.nih.covid19lis.info.SpecimenStatus.FOR_VERIFICATION_MT1 && it?.approverMT1 != springSecurityService?.currentUser}">
                                         <sec:ifAnyGranted roles="ROLE_SUPERADMIN, ROLE_MT">
                                             <button class="button" name="decision" value="acceptMT1">Accept</button>
                                             <button class="button" name="decision" value="rejectResult" onclick="return confirm('Reject the results?');">Reject</button>
                                         </sec:ifAnyGranted>
-                                    </g:if>
-                                    <g:if test="${it?.status == ph.edu.upm.nih.covid19lis.info.SpecimenStatus.FOR_VERIFICATION_MT2 && it?.approverMT2 != springSecurityService?.currentUser}">
+                                    </g:elseif>
+                                    <g:elseif test="${it?.status == ph.edu.upm.nih.covid19lis.info.SpecimenStatus.FOR_VERIFICATION_MT2 && it?.approverMT2 != springSecurityService?.currentUser}">
                                         <sec:ifAnyGranted roles="ROLE_SUPERADMIN, ROLE_MT">
                                             <button class="button" name="decision" value="acceptMT2">Accept</button>
                                             <button class="button" name="decision" value="rejectResult" onclick="return confirm('Reject the results?');">Reject</button>
                                         </sec:ifAnyGranted>
-                                    </g:if>
+                                    </g:elseif>
+                                    <g:elseif test="${it?.status == ph.edu.upm.nih.covid19lis.info.SpecimenStatus.FOR_VERIFICATION_QA}">
+                                        <sec:ifAnyGranted roles="ROLE_SUPERADMIN, ROLE_QA">
+                                            <button class="button" name="decision" value="acceptQA">Accept</button>
+                                            <button class="button" name="decision" value="rejectResult" onclick="return confirm('Reject the results?');">Reject</button>
+                                        </sec:ifAnyGranted>
+                                    </g:elseif>
+                                    <g:elseif test="${it?.status == ph.edu.upm.nih.covid19lis.info.SpecimenStatus.FOR_VERIFICATION_MB}">
+                                        <sec:ifAnyGranted roles="ROLE_SUPERADMIN, ROLE_MB">
+                                            <button class="button" name="decision" value="acceptMB">Accept</button>
+                                            <button class="button" name="decision" value="rejectResult" onclick="return confirm('Reject the results?');">Reject</button>
+                                        </sec:ifAnyGranted>
+                                    </g:elseif>
+                                    <g:elseif test="${it?.status == ph.edu.upm.nih.covid19lis.info.SpecimenStatus.FOR_VERIFICATION_PATH}">
+                                        <sec:ifAnyGranted roles="ROLE_SUPERADMIN, ROLE_PATH">
+                                            <button class="button" name="decision" value="acceptPATH">Accept</button>
+                                            <button class="button" name="decision" value="rejectResult" onclick="return confirm('Reject the results?');">Reject</button>
+                                        </sec:ifAnyGranted>
+                                    </g:elseif>
                                 </g:form>
                             </td>
                         </tr>

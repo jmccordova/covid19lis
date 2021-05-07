@@ -50,7 +50,6 @@
                                     </strike>
                                 </g:if>
                             </td>
-                            <td></td>
                             <td>
                                 <g:link action="show" id="${it?.id}">View</g:link>
                                 <g:link action="edit" id="${it?.id}">Edit</g:link>

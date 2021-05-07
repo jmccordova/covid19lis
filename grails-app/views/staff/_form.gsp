@@ -38,6 +38,13 @@
 </div>
 
 <div class="fieldcontain required">
+	<label for="prcNum">
+		PRC License Number
+	</label>
+	<g:textField name="prcNum" id="prcNum" value="${staffInstance?.prcNum}" />
+</div>
+
+<div class="fieldcontain required">
     <label for="role.id">
         Role
 		<span class="required-indicator">*</span>
