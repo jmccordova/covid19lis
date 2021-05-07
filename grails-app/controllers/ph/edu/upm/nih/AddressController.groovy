@@ -2,7 +2,9 @@ package ph.edu.upm.nih
 
 import grails.validation.ValidationException
 import static org.springframework.http.HttpStatus.*
+import org.springframework.security.access.annotation.Secured
 
+@Secured(['IS_AUTHENTICATED_FULLY'])
 class AddressController {
 
     AddressService addressService
@@ -38,7 +40,7 @@ class AddressController {
         request.withFormat {
             form multipartForm {
                 flash.message = message(code: 'default.created.message', args: [message(code: 'address.label', default: 'Address'), address.id])
-                redirect address
+                redirect controller: 'patient', action: 'show', id: address?.patient?.id
             }
             '*' { respond address, [status: CREATED] }
         }

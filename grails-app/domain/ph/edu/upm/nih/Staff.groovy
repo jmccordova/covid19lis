@@ -11,6 +11,7 @@ class Staff extends Person implements Serializable {
 
     private static final long serialVersionUID = 1
 
+    String prcNum
     String username
     String password
     boolean enabled = true
@@ -25,6 +26,7 @@ class Staff extends Person implements Serializable {
     static constraints = {
         password nullable: false, blank: false, password: true
         username nullable: false, blank: false, unique: true
+        prcNum nullable: true, blank: true, unique: true
     }
 
     static mapping = {
