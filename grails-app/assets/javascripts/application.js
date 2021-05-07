@@ -15,6 +15,7 @@
 //= require pdfmake.min
 //= require vfs_fonts
 //= require buttons.html5.min
+//= require coreui.bundle.min
 //= require_self
 
 if (typeof jQuery !== 'undefined') {

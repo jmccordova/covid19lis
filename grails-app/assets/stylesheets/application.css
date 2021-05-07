@@ -8,11 +8,10 @@
 * compiled file, but it's generally better to create a new file per style scope.
 *
 *= require bootstrap
-*= require grails
-*= require main
-*= require mobile
 *= require select2.min
-*= require jquery.dataTables.min
+*= require datatables.min
+*= require coreui.min
+*= require all.min
 *= require_self
 */
 
