@@ -18,7 +18,51 @@
             <g:if test="${flash.message}">
                 <div class="message" role="status">${flash.message}</div>
             </g:if>
-            <f:table collection="${clinicalInfoList}" />
+            
+            <table id="clinicalInfoList" class="table export-table">
+                <thead>
+                    <th>Case No.</th>
+                    <th>Patient</th>
+                    <th>Symptoms</th>
+                    <th>Chest Radiology</th>
+                    <th>Chest CT Scan</th>
+                    <th>Lung Ultrasound</th>
+                    <th class="not-for-export"></th>
+                </thead>
+                <tbody>
+                    <g:each in="${clinicalInfoList}">
+                        <tr>
+                            <td>${it?.patientCase?.caseNum}</td>
+                            <td>${it?.patientCase?.patient?.fullName}</td>
+                            <td>${it?.allSymptoms}</td>
+                            <td>
+                                <g:if test="${it?.hasChestRad}">
+                                    ${it?.correctChestRadResult} <small>Tested: <g:formatDate format="MMMM dd, YYYY" date="${it?.dateChestRadTest}"/></small>
+                                </g:if>
+                                <g:else>
+                                    Not yet tested
+                                </g:else>
+                            </td>
+                            <td>
+                                <g:if test="${it?.hasChestCT}">
+                                    ${it?.correctChestCTResult} <small>Tested: <g:formatDate format="MMMM dd, YYYY" date="${it?.dateChestCTTest}"/></small>
+                                </g:if>
+                                <g:else>
+                                    Not yet tested
+                                </g:else>
+                            </td>
+                            <td>
+                                <g:if test="${it?.hasLungUS}">
+                                    ${it?.correctLungUSResult} <small>Tested: <g:formatDate format="MMMM dd, YYYY" date="${it?.dateLungUSTest}"/></small>
+                                </g:if>
+                                <g:else>
+                                    Not yet tested
+                                </g:else>
+                            </td>
+                        </tr>
+                    </g:each>
+                </tbody>
+            </table>
 
             <div class="pagination">
                 <g:paginate total="${clinicalInfoCount ?: 0}" />

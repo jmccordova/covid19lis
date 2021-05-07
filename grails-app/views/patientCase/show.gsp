@@ -31,24 +31,29 @@
                             <strong>Places Visited</strong>
                         </div>
                         <div class="card-body">
-                            <table class="table table-responsive table-bordered">
-                                <thead>
-                                    <th>Date</th>
-                                    <th>Type</th>
-                                    <th>Address</th>
-                                    <th>With community transmission?</th>
-                                </thead>
-                                <tbody>
-                                    <g:each in="${patientCaseInstance?.placesVisited}">
-                                        <tr>
-                                            <td>${it?.dateVisitedFrom} - ${it?.dateVisitedTo}</td>
-                                            <td>${it?.facilityType}</td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                    </g:each>
-                                </tbody>
-                            </table>
+                            <g:if test="${patientCaseInstance?.placesVisited}">
+                                <table class="table table-responsive table-bordered">
+                                    <thead>
+                                        <th>Date</th>
+                                        <th>Type</th>
+                                        <th>Address</th>
+                                        <th>With community transmission?</th>
+                                    </thead>
+                                    <tbody>
+                                        <g:each in="${patientCaseInstance?.placesVisited}">
+                                            <tr>
+                                                <td>${it?.dateVisitedFrom} - ${it?.dateVisitedTo}</td>
+                                                <td>${it?.facilityType}</td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        </g:each>
+                                    </tbody>
+                                </table>
+                            </g:if>
+                            <g:else>
+                                <g:link controller="address" action="create" class="btn btn-sm btn-info" params="[patientCase: patientCaseInstance?.id]">Add</g:link>
+                            </g:else>
                         </div>
                     </div>
                 </div>
@@ -58,20 +63,25 @@
                             <strong>Close Contacts</strong>
                         </div>
                         <div class="card-body">
-                            <table class="table table-responsive table-bordered">
-                                <thead>
-                                    <th>Name</th>
-                                    <th>Phone No.</th>
-                                </thead>
-                                <tbody>
-                                    <g:each in="${patientCaseInstance?.contacts}">
-                                        <tr>
-                                            <td>${it?.fullName}</td>
-                                            <td>${it?.contactNumber}</td>
-                                        </tr>
-                                    </g:each>
-                                </tbody>
-                            </table>
+                            <g:if test="${!patientCaseInstance?.contacts?.isEmpty()}">
+                                <table class="table table-responsive">
+                                    <thead>
+                                        <th>Name</th>
+                                        <th>Phone No.</th>
+                                    </thead>
+                                    <tbody>
+                                        <g:each in="${patientCaseInstance?.contacts}">
+                                            <tr>
+                                                <td>${it?.fullName}</td>
+                                                <td>${it?.contactNumber}</td>
+                                            </tr>
+                                        </g:each>
+                                    </tbody>
+                                </table>
+                            </g:if>
+                            <g:else>
+                                <g:link controller="person" action="create" class="btn btn-sm btn-info" params="[patientCase: patientCaseInstance?.id]">Add</g:link>
+                            </g:else>
                         </div>
                     </div>
                 </div>
@@ -86,60 +96,63 @@
                         </div>
                         <div class="card-body">
                             <g:if test="${patientCaseInstance?.clinicalTest}">
-                                <div class="fieldcontain required">
-                                    <label>
-                                        Symptoms
-                                    </label>
-                                    <g:if test="${patientCaseInstance?.isAsymptomatic}">
-                                        None
-                                    </g:if>
-                                    <g:else>
-                                        ${patientCaseInstance?.clinicalTest?.allSymptoms}
-                                    </g:else>
-                                </div>
-
-                                <div class="fieldcontain required">
-                                    <label>
-                                        Chest Radiology Result
-                                    </label>
-                                    <g:if test="${!patientCaseInstance?.clinicalTest?.hasChestRad}">
-                                        Not tested yet
-                                    </g:if>
-                                    <g:else>
-                                        ${patientCaseInstance?.clinicalTest?.chestRadResult}
-                                        <small>Tested last: <g:formatDate format="MMMM dd, YYYY" date="${patientCaseInstance?.clinicalTest?.dateChestRadResult}"/></small>
-                                    </g:else>
-                                </div>
-
-                                <div class="fieldcontain required">
-                                    <label>
-                                        Chest CT Result
-                                    </label>
-                                    <g:if test="${!patientCaseInstance?.clinicalTest?.hasChestCT}">
-                                        Not tested yet
-                                    </g:if>
-                                    <g:else>
-                                        ${patientCaseInstance?.clinicalTest?.chestCTResult}
-                                        <small>Tested last: <g:formatDate format="MMMM dd, YYYY" date="${patientCaseInstance?.clinicalTest?.dateChestCTResult}"/></small>
-                                    </g:else>
-                                </div>
-
-                                <div class="fieldcontain required">
-                                    <label>
-                                        Lung Ultrasound Result
-                                    </label>
-                                    <g:if test="${!patientCaseInstance?.clinicalTest?.hasLungUS}">
-                                        Not tested yet
-                                    </g:if>
-                                    <g:else>
-                                        ${patientCaseInstance?.clinicalTest?.lungUSResult}
-                                        <small>Tested last: <g:formatDate format="MMMM dd, YYYY" date="${patientCaseInstance?.clinicalTest?.dateLungUSResult}"/></small>
-                                    </g:else>
-                                </div>
-                                <g:link controller="clinicalInfo" action="edit" id="${patientCaseInstance?.clinicalTest?.id}">Update</g:link>
+                                <table class="table table-responsive">
+                                    <tr>
+                                        <td>Symptoms</td>
+                                        <td>
+                                            <g:if test="${patientCaseInstance?.isAsymptomatic}">
+                                                None
+                                            </g:if>
+                                            <g:else>
+                                                ${patientCaseInstance?.clinicalTest?.allSymptoms}
+                                            </g:else>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Chest Radiology Result</td>
+                                        <td>
+                                            <g:if test="${!patientCaseInstance?.clinicalTest?.hasChestRad}">
+                                                Not tested yet
+                                            </g:if>
+                                            <g:else>
+                                                ${patientCaseInstance?.clinicalTest?.chestRadResult}
+                                                <small>Tested last: <g:formatDate format="MMMM dd, YYYY" date="${patientCaseInstance?.clinicalTest?.dateChestRadResult}"/></small>
+                                            </g:else>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Chest CT Result</td>
+                                        <td>
+                                            <g:if test="${!patientCaseInstance?.clinicalTest?.hasChestCT}">
+                                                Not tested yet
+                                            </g:if>
+                                            <g:else>
+                                                ${patientCaseInstance?.clinicalTest?.chestCTResult}
+                                                <small>Tested last: <g:formatDate format="MMMM dd, YYYY" date="${patientCaseInstance?.clinicalTest?.dateChestCTResult}"/></small>
+                                            </g:else>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Lung Ultrasound Result</td>
+                                        <td>
+                                            <g:if test="${!patientCaseInstance?.clinicalTest?.hasLungUS}">
+                                                Not tested yet
+                                            </g:if>
+                                            <g:else>
+                                                ${patientCaseInstance?.clinicalTest?.lungUSResult}
+                                                <small>Tested last: <g:formatDate format="MMMM dd, YYYY" date="${patientCaseInstance?.clinicalTest?.dateLungUSResult}"/></small>
+                                            </g:else>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <g:link controller="clinicalInfo" action="edit" class="btn btn-sm btn-info" id="${patientCaseInstance?.clinicalTest?.id}">Update</g:link>
+                                        </td>
+                                    </tr>
+                                </table>
                             </g:if>
                             <g:else>
-                                <g:link controller="clinicalInfo" action="create" params="[patientCase: patientCaseInstance?.id]">Add</g:link>
+                                <g:link controller="clinicalInfo" action="create" class="btn btn-sm btn-info" params="[patientCase: patientCaseInstance?.id]">Add</g:link>
                             </g:else>
                         </div>
                     </div>
@@ -151,7 +164,7 @@
                         </div>
                         <div class="card-body">
                             <g:if test="${patientCaseInstance?.labTests}">
-                                <table>
+                                <table class="table table-responsive">
                                     <thead>
                                         <th>Type</th>
                                         <th>Date Collected</th>
@@ -174,7 +187,7 @@
                             </g:if>
                             <g:else>
                                 <sec:ifAnyGranted roles="ROLE_SUPERADMIN, ROLE_ENCODER">
-                                    <g:link controller="specimen" action="create" params="[patientCase: patientCaseInstance?.id]">Add</g:link>
+                                    <g:link controller="specimen" action="create" class="btn btn-sm btn-info" params="[patientCase: patientCaseInstance?.id]">Add</g:link>
                                 </sec:ifAnyGranted>
                             </g:else>
                         </div>

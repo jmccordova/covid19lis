@@ -41,7 +41,7 @@
                             </g:link>
                         </li>
                         <li class="c-sidebar-nav-item">
-                            <g:link class="c-sidebar-nav-link" controller="patient" action="index">
+                            <g:link class="c-sidebar-nav-link" controller="patientCase" action="index">
                                 <span class="c-sidebar-nav-icon cil-notes"></span>
                                 Cases
                             </g:link>
@@ -81,7 +81,7 @@
                     </g:link>
                 </li>
                 <li class="c-sidebar-nav-item">
-                    <g:link class="c-sidebar-nav-link" controller="laboratoryInfo" action="index">
+                    <g:link class="c-sidebar-nav-link" controller="specimen" action="index">
                         <span class="c-sidebar-nav-icon cil-beaker"></span>
                         Lab Test
                     </g:link>
@@ -123,7 +123,12 @@
                 <li class="c-header-nav-item dropdown">
                     <a class="c-header-nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                         <div class="c-avatar">
-                            <asset:image class="c-avatar-img" src="person-icon.jpg" alt="${springSecurityService?.currentUser?.username}" />
+                            <sec:ifLoggedIn>
+                                <asset:image class="c-avatar-img" src="person-icon.jpg" alt="${springSecurityService?.currentUser?.username}" />
+                            </sec:ifLoggedIn>
+                            <sec:ifNotLoggedIn>
+                                <asset:image class="c-avatar-img" src="person-icon-guest.jpg" alt="${springSecurityService?.currentUser?.username}" />
+                            </sec:ifNotLoggedIn>
                         </div>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right pt-0">

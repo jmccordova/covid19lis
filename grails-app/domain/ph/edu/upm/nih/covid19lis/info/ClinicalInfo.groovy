@@ -1,6 +1,8 @@
 package ph.edu.upm.nih.covid19lis.info
 
 import ph.edu.upm.nih.covid19lis.patient.PatientCase
+import org.apache.commons.lang3.StringUtils;
+
 class ClinicalInfo {
 
 	Date dateCreated
@@ -55,12 +57,25 @@ class ClinicalInfo {
     		s += it.toString() + ', '
     	}
 
-    	s += otherSymptoms
+    	if(otherSymptoms) s += otherSymptoms
+    	else s = SpringUtils.chop(s)
     	s
     }
 
     def getCorrectChestRadResult() {
     	def result = chestRadResult == ChestRadResult.OTHER ? chestRadOtherResult : chestRadResult
+
+    	result
+    }
+
+    def getCorrectChestCTResult() {
+    	def result = chestCTResult == ChestCTResult.OTHER ? chestCTOtherResult : chestCTResult
+
+    	result
+    }
+
+    def getCorrectLungUSResult() {
+    	def result = lungUSResult == LungUSResult.OTHER ? lungUSOtherResult : lungUSResult
 
     	result
     }
