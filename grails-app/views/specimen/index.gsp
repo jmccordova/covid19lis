@@ -22,9 +22,17 @@
             </g:if>
             
             <g:set var="springSecurityService" bean="springSecurityService"/>
+            
+            <g:form action="batchAction" method="POST">
+                <g:hiddenField name="specimens" value="" />
+                %{-- <a class="btn btn-primary" id="selectAll" href="#">Select All</a> --}%
+                <g:submitButton class="btn btn-success" name="accept" value="Accept Selected" />
+                <g:submitButton class="btn btn-danger" name="reject" value="Reject Selected" />
+            </g:form>
+
             <table id="specimenList" class="table export-table">
                 <thead>
-                    <th></th>
+                    <th class="not-clickable"><input type="checkbox" id="specimenAll" /></th>
                     <th>ID</th>
                     <th>Date Updated</th>
                     <th>Case No.</th>
@@ -37,7 +45,7 @@
                 <tbody>
                     <g:each in="${specimenList}">
                         <tr>
-                            <td><g:checkBox name="specimens" id="specimen-${it?.id}" value="${it?.id}" checked="${false}"/></td>
+                            <td><input type="checkbox" class="specimens" id="specimen-${it?.id}" value="${it?.id}" /></td>
                             <td>${it?.specimenNum}</td>
                             <td><g:formatDate format="MMMM dd, YYYY" date="${it?.lastUpdated}"/></td>
                             <td>${it?.patientCase?.caseNum}</td>
@@ -103,5 +111,25 @@
                 <g:paginate total="${specimenCount ?: 0}" />
             </div>
         </div>
+
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $("#specimenAll").click(function() {
+                    var on = $(this).is(":checked")
+                    $(".specimens").prop('checked', !on)
+                    $(".specimens").click()
+                });
+
+                $(".specimens").on('click', function() {
+                    var specimens = []
+
+                    $(".specimens:checked").each(function() {
+                        specimens.push($(this).val())
+                    })
+                    
+                    $("[name='specimens']").val(JSON.stringify(specimens))
+                })
+            });
+        </script>
     </body>
 </html>

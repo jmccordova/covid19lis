@@ -38,16 +38,18 @@ class CodeGeneratorService {
     	patientNum
     }
 
-    public def getSpecimenNum(PatientCase patientCaseInstance) {
-    	def specimenNum = patientCaseInstance?.caseNum + "-"
-    	def currentCount = 1
-        def specimens = Specimen.executeQuery("SELECT specimenNum FROM Specimen WHERE specimenNum LIKE ':specimenNum%' ORDER BY specimenNum DESC")
-    	if(!specimens?.isEmpty()) {
-            currentCount = Integer.parseInt(specimens?.last()?.split('-')?.last())  // get last entry -> get series number
-            currentCount++
-        }
-
-        specimenNum += String.format("%02d", currentCount)
+    /**
+    *   Format YYYY-XX-XXXX
+    *   XX = number of total specimen divided by ten thousand
+    *   XXXX = remainder of previous
+    */
+    public def getSpecimenNum() {
+        def specimenNum = new SimpleDateFormat('yyyy').format(new Date()).toString() + "-"
+        def total = Specimen.countBySpecimenNumLike(specimenNum + '%')
+        def quotient = (total / 10000).intValue()
+        specimenNum += String.format("%02d", quotient) + "-"
+        def currentSerial = (total % 10000) + 1
+        specimenNum += String.format("%04d", currentSerial)
 
     	specimenNum
     }

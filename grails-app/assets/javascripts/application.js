@@ -65,8 +65,10 @@ $(document).ready( function () {
             }
         }]
     });
+    $('th.not-clickable').unbind('click.DT')
 
     $(".select2").select2();
+
 }).on("ajaxSend submit", function() {
     $("input[type='submit']").blur();
     $("#spinner").fadeIn('fast');
