@@ -22,7 +22,6 @@
             </g:if>
             
             <g:set var="springSecurityService" bean="springSecurityService"/>
-<<<<<<< HEAD
             
             <g:form action="batchAction" method="POST">
                 <g:hiddenField name="specimens" value="[]" />
@@ -31,11 +30,9 @@
                 <g:submitButton class="btn btn-danger" name="reject" value="Reject Selected" disabled=""/>
             </g:form>
 
-=======
->>>>>>> parent of 67710d7... Added batch actions
             <table id="specimenList" class="table export-table">
                 <thead>
-                    <th></th>
+                    <th class="not-clickable"><input type="checkbox" id="specimenAll" /></th>
                     <th>ID</th>
                     <th>Date Updated</th>
                     <th>Case No.</th>
@@ -48,7 +45,7 @@
                 <tbody>
                     <g:each in="${specimenList}">
                         <tr>
-                            <td><g:checkBox name="specimens" id="specimen-${it?.id}" value="${it?.id}" checked="${false}"/></td>
+                            <td><input type="checkbox" class="specimens" id="specimen-${it?.id}" value="${it?.id}" /></td>
                             <td>${it?.specimenNum}</td>
                             <td><g:formatDate format="MMMM dd, YYYY" date="${it?.lastUpdated}"/></td>
                             <td>${it?.patientCase?.caseNum}</td>
@@ -120,7 +117,6 @@
                 <g:paginate total="${specimenCount ?: 0}" />
             </div>
         </div>
-<<<<<<< HEAD
 
         <script type="text/javascript">
             $(document).ready(function() {
@@ -142,7 +138,5 @@
                 })
             });
         </script>
-=======
->>>>>>> parent of 67710d7... Added batch actions
     </body>
 </html>
