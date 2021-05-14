@@ -1,0 +1,54 @@
+/*
+* This is a manifest file that'll be compiled into application.css, which will include all the files
+* listed below.
+*
+* Any CSS file within this directory can be referenced here using a relative path.
+*
+* You're free to add application-wide styles to this file and they'll appear at the top of the
+* compiled file, but it's generally better to create a new file per style scope.
+*
+*= require bootstrap
+*= require select2.min
+*= require datatables.min
+*= require coreui.min
+*= require all.min
+*= require_self
+*/
+
+body {
+	display: flex;
+	min-height: 100vh;
+	flex-direction: column;
+}
+
+main {
+	flex: 1 0 auto;
+}
+
+#spinner {
+	position: fixed;
+	top: 0%;
+	left: 0%;
+	width: 100%;
+	min-height: 100%;
+	z-index: 5000;
+	overflow: auto;
+	background-color: #545454;
+	opacity: 0.85;
+}
+
+#spinner-container {
+	position: relative;
+	top: 60%;
+	background-color: #000000;
+	opacity: 1;
+	color: white;
+}
+
+.view-only {
+	pointer-events: none;
+}
+
+.hidden {
+	display: none;
+}
