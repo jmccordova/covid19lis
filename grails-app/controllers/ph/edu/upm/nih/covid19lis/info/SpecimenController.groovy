@@ -3,7 +3,6 @@ package ph.edu.upm.nih.covid19lis.info
 import grails.validation.ValidationException
 import static org.springframework.http.HttpStatus.*
 import org.springframework.security.access.annotation.Secured
-import grails.converters.JSON
 
 @Secured(['IS_AUTHENTICATED_FULLY'])
 class SpecimenController {
@@ -12,7 +11,7 @@ class SpecimenController {
     def codeGeneratorService
     def springSecurityService
 
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE", decide: "POST", batchAction: "POST"]
+    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE", decide: "POST"]
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
@@ -36,7 +35,7 @@ class SpecimenController {
         }
 
         try {
-            specimen.specimenNum = codeGeneratorService.getSpecimenNum()
+            specimen.specimenNum = codeGeneratorService.getSpecimenNum(specimen.patientCase)
             specimenService.save(specimen)
         } catch (ValidationException e) {
             println e
@@ -193,6 +192,7 @@ class SpecimenController {
         return
     }
 
+<<<<<<< HEAD
     def batchAction() {
         def specimenList = Specimen.findAllByIdInList(JSON.parse(params.specimens))
         if(specimenList?.isEmpty()) {
@@ -221,6 +221,8 @@ class SpecimenController {
         return
     }
 
+=======
+>>>>>>> parent of 67710d7... Added batch actions
     def delete(Long id) {
         if (id == null) {
             notFound()
