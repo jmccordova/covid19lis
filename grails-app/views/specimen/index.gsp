@@ -24,10 +24,10 @@
             <g:set var="springSecurityService" bean="springSecurityService"/>
             
             <g:form action="batchAction" method="POST">
-                <g:hiddenField name="specimens" value="" />
+                <g:hiddenField name="specimens" value="[]" />
                 %{-- <a class="btn btn-primary" id="selectAll" href="#">Select All</a> --}%
-                <g:submitButton class="btn btn-success" name="accept" value="Accept Selected" />
-                <g:submitButton class="btn btn-danger" name="reject" value="Reject Selected" />
+                <g:submitButton class="btn btn-success" name="accept" value="Accept Selected" disabled=""/>
+                <g:submitButton class="btn btn-danger" name="reject" value="Reject Selected" disabled=""/>
             </g:form>
 
             <table id="specimenList" class="table export-table">
@@ -82,6 +82,12 @@
                                             <button class="btn btn-sm btn-danger" name="decision" value="rejectResult" onclick="return confirm('Reject the results?');">Reject</button>
                                         </sec:ifAnyGranted>
                                     </g:elseif>
+                                    <g:elseif test="${it?.status == ph.edu.upm.nih.covid19lis.info.SpecimenStatus.FOR_VERIFICATION_SUP}">
+                                        <sec:ifAnyGranted roles="ROLE_SUPERADMIN, ROLE_SUP">
+                                            <button class="btn btn-sm btn-success" name="decision" value="acceptSUP">Accept</button>
+                                            <button class="btn btn-sm btn-danger" name="decision" value="rejectResult" onclick="return confirm('Reject the results?');">Reject</button>
+                                        </sec:ifAnyGranted>
+                                    </g:elseif>
                                     <g:elseif test="${it?.status == ph.edu.upm.nih.covid19lis.info.SpecimenStatus.FOR_VERIFICATION_QA}">
                                         <sec:ifAnyGranted roles="ROLE_SUPERADMIN, ROLE_QA">
                                             <button class="btn btn-sm btn-success" name="decision" value="acceptQA">Accept</button>
@@ -128,6 +134,7 @@
                     })
                     
                     $("[name='specimens']").val(JSON.stringify(specimens))
+                    $("[name='accept'], [name='reject']").prop('disabled', (specimens.length == 0))  // Enable button when there is checked
                 })
             });
         </script>

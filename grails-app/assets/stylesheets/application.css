@@ -15,6 +15,35 @@
 *= require_self
 */
 
+body {
+	display: flex;
+	min-height: 100vh;
+	flex-direction: column;
+}
+
+main {
+	flex: 1 0 auto;
+}
+
+#spinner {
+	position: fixed;
+	top: 0%;
+	left: 0%;
+	width: 100%;
+	min-height: 100%;
+	z-index: 5000;
+	overflow: auto;
+	background-color: #545454;
+	opacity: 0.85;
+}
+
+#spinner-container {
+	position: relative;
+	top: 60%;
+	background-color: #000000;
+	opacity: 1;
+	color: white;
+}
 
 .view-only {
 	pointer-events: none;

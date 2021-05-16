@@ -81,10 +81,13 @@ dependencies {
     // Spring Security
     compile 'org.grails.plugins:spring-security-core:4.0.3'
     // Email
-    compile 'org.grails.plugins:asynchronous-mail:2.0.2'
+    // compile 'org.grails.plugins:quartz:2.0.13'
+    // compile 'com.novadge.plugins:novamail:0.1.8'
     // Report
     // compile 'com.lowagie:itext:4.2.2'
     // compile 'net.sf.jasperreports:jasperreports:6.16.0'
+    compile 'org.docx4j:docx4j:6.1.2'
+    compile 'org.docx4j:docx4j-core:11.2.9'
     // Audit log
     compile 'org.grails.plugins:audit-trail:3.0.11'
 }

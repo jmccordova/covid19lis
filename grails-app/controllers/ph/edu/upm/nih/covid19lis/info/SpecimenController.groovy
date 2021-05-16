@@ -16,7 +16,7 @@ class SpecimenController {
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        respond specimenService.list(params), model:[specimenCount: specimenService.count()]
+        render view: 'index', model:[specimenList: Specimen.getAllForApproval(), specimenCount: specimenService.count()]
     }
 
     def show(Long id) {
@@ -89,6 +89,88 @@ class SpecimenController {
         render view: 'addResult', model: [specimenInstance: specimenInstance]
     }
 
+    private def changeStatus(Specimen specimenInstance, String decision) {
+        switch(decision) {
+            case 'acceptSample':
+                specimenInstance?.status = SpecimenStatus.FOR_PROCESSING
+                break
+            case 'rejectSample':
+                specimenInstance?.status = SpecimenStatus.SAMPLE_REJECTED
+                specimenInstance?.labResult = LabResult.REJECT
+                break
+            case 'acceptMT1':
+                specimenInstance?.approverMT1 = springSecurityService?.currentUser
+                specimenInstance?.status = SpecimenStatus.FOR_VERIFICATION_MT2
+                break
+            case 'acceptMT2':
+                specimenInstance?.approverMT2 = springSecurityService?.currentUser
+                specimenInstance?.status = SpecimenStatus.FOR_VERIFICATION_SUP
+                break
+            case 'acceptSUP':
+                specimenInstance?.approverSUP = springSecurityService?.currentUser
+                specimenInstance?.status = SpecimenStatus.FOR_VERIFICATION_QA
+                break
+            case 'acceptQA':
+                specimenInstance?.approverQA = springSecurityService?.currentUser
+                specimenInstance?.status = SpecimenStatus.FOR_VERIFICATION_MB
+                break
+            case 'acceptMB':
+                specimenInstance?.approverMB = springSecurityService?.currentUser
+                specimenInstance?.status = SpecimenStatus.FOR_VERIFICATION_PATH
+                break
+            case 'acceptPATH':
+                specimenInstance?.approverPATH = springSecurityService?.currentUser
+                specimenInstance?.status = SpecimenStatus.RESULT_ACCEPTED
+                break
+            case 'rejectResult':
+                specimenInstance?.status = SpecimenStatus.RESULT_REJECTED
+                specimenInstance?.labResult = LabResult.REJECT
+                break
+            default:
+                break
+        }
+
+        specimenInstance
+    }
+
+    private def getNextDecision(SpecimenStatus currentStatus, Boolean accept) {
+        def nextDecision
+
+        if(accept) {
+            switch(currentStatus) {
+                case SpecimenStatus.SUBMITTED:
+                    nextDecision = 'acceptSample'
+                    break
+                case SpecimenStatus.FOR_PROCESSING:
+                    nextDecision = 'acceptSample' // Similar to above; Users should add result
+                    break
+                case SpecimenStatus.FOR_VERIFICATION_MT1:
+                    nextDecision = 'acceptMT2'
+                    break
+                case SpecimenStatus.FOR_VERIFICATION_MT2:
+                    nextDecision = 'acceptQA'
+                    break
+                case SpecimenStatus.FOR_VERIFICATION_QA:
+                    nextDecision = 'acceptMB'
+                    break
+                case SpecimenStatus.FOR_VERIFICATION_MB:
+                    nextDecision = 'acceptPATH'
+                    break
+            }
+        } else {
+            switch(currentStatus) {
+                case SpecimenStatus.SUBMITTED:
+                    nextDecision = 'rejectSample'
+                    break
+                default:
+                    nextDecision = 'rejectResult'
+                    break
+            }
+        }
+
+        nextDecision
+    }
+
     @Secured(['ROLE_SUPERADMIN', 'ROLE_MT', 'ROLE_QA', 'ROLE_MB', 'ROLE_PATH'])
     def decide(Specimen specimenInstance) {
         if (specimenInstance == null) {
@@ -96,51 +178,10 @@ class SpecimenController {
             return
         }
 
-        def message
+        def message = specimenInstance?.status == SpecimenStatus.SUBMITTED ? 'Sample ' : 'Result '
+        message += params.decision.contains('accept') ? 'accepted.' : 'rejected.'
 
-        switch(params.decision) {
-            case 'acceptSample':
-                message = 'Sample accepted.'
-                specimenInstance?.status = SpecimenStatus.FOR_PROCESSING
-                break
-            case 'rejectSample':
-                message = 'Sample rejected.'
-                specimenInstance?.status = SpecimenStatus.SAMPLE_REJECTED
-                specimenInstance?.labResult = LabResult.REJECT
-                break
-            case 'acceptMT1':
-                message = 'Result accepted.'
-                specimenInstance?.approverMT1 = springSecurityService?.currentUser
-                specimenInstance?.status = SpecimenStatus.FOR_VERIFICATION_MT2
-                break
-            case 'acceptMT2':
-                message = 'Result accepted.'
-                specimenInstance?.approverMT2 = springSecurityService?.currentUser
-                specimenInstance?.status = SpecimenStatus.FOR_VERIFICATION_QA
-                break
-            case 'acceptQA':
-                message = 'Result accepted.'
-                specimenInstance?.approverQA = springSecurityService?.currentUser
-                specimenInstance?.status = SpecimenStatus.FOR_VERIFICATION_MB
-                break
-            case 'acceptMB':
-                message = 'Result accepted.'
-                specimenInstance?.approverMB = springSecurityService?.currentUser
-                specimenInstance?.status = SpecimenStatus.FOR_VERIFICATION_PATH
-                break
-            case 'acceptPATH':
-                message = 'Result accepted.'
-                specimenInstance?.approverPATH = springSecurityService?.currentUser
-                specimenInstance?.status = SpecimenStatus.RESULT_ACCEPTED
-                break
-            case 'rejectResult':
-                message = 'Result not accepted.'
-                specimenInstance?.status = SpecimenStatus.RESULT_REJECTED
-                specimenInstance?.labResult = LabResult.REJECT
-                break
-            default:
-                break
-        }
+        specimenInstance = changeStatus(specimenInstance, params.decision)
 
         if(specimenService.save(specimenInstance)) {
             flash.message = message
@@ -153,13 +194,31 @@ class SpecimenController {
     }
 
     def batchAction() {
-        println JSON.toString(params.specimen)
+        def specimenList = Specimen.findAllByIdInList(JSON.parse(params.specimens))
+        if(specimenList?.isEmpty()) {
+            def choice = params.containsKey('accept')
+            def decision
+            Specimen.withTransaction { status ->
+                specimenList?.each {
+                    decision = getNextDecision(it?.status, choice)
+                    it = changeStatus(it, decision)
+                    if(!it.save(failOnError: true)) {
+                        status.setRollbackOnly()
 
-        if(params.containsKey('accept')) {
+                        flash.error = "Something went wrong while doing batch update."
+                        redirect action: 'index'
+                        return
+                    }
+                }
+            }
 
-        } else if(params.containsKey('reject')) {
-
+            flash.message = "Batch update done."
+        } else {
+            flash.warning = "None selected."
         }
+
+        redirect action: 'index'
+        return
     }
 
     def delete(Long id) {

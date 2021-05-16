@@ -12,9 +12,23 @@ class PatientCaseController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
-    def index(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
-        respond patientCaseService.list(params), model:[patientCaseCount: patientCaseService.count()]
+    def index() {
+        def startDate = params.startDate ? params.date('startDate', 'yyyy-MM-dd') : null
+        def endDate = params.endDate ? params.date('endDate', 'yyyy-MM-dd') : null
+        
+        def patientCaseList
+
+        if(startDate && endDate) {
+            patientCaseList = PatientCase.executeQuery("SELECT pc FROM PatientCase pc WHERE pc.dateInterviewed BETWEEN :startDate AND :endDate", [startDate: startDate, endDate: endDate])
+        } else if(startDate && !endDate) {
+            patientCaseList = PatientCase.executeQuery("SELECT pc FROM PatientCase pc WHERE pc.dateInterviewed = :startDate", [startDate: startDate])
+        } else if(!startDate && endDate) {
+            patientCaseList = PatientCase.executeQuery("SELECT pc FROM PatientCase pc WHERE pc.dateInterviewed = :endDate", [endDate: endDate])
+        } else {
+            patientCaseList = PatientCase.list()
+        }
+
+        render view: 'index', model: [patientCaseList: patientCaseList]
     }
 
     def show(Long id) {

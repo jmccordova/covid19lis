@@ -18,16 +18,6 @@
 //= require coreui.bundle.min
 //= require_self
 
-if (typeof jQuery !== 'undefined') {
-    (function($) {
-        $(document).ajaxStart(function() {
-            $('#spinner').fadeIn();
-        }).ajaxStop(function() {
-            $('#spinner').fadeOut();
-        });
-    })(jQuery);
-}
-
 var dataTable, exportTable
 $(document).ready( function () {
 	$("#spinner").fadeOut("fast");

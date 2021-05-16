@@ -24,6 +24,10 @@ class AddressController {
         respond new Address(params)
     }
 
+    def createVisit() {
+        respond new Address(params)
+    }
+
     def save(Address address) {
         if (address == null) {
             notFound()

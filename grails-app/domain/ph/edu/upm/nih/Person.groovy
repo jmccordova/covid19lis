@@ -1,6 +1,7 @@
 package ph.edu.upm.nih
 
 import ph.edu.upm.nih.FacilityType
+import ph.edu.upm.nih.covid19lis.patient.PatientCase
 
 class Person {
 
@@ -14,6 +15,7 @@ class Person {
 	String contactNumber
 	String emailAddress
 	FacilityType exposureSetting
+    PatientCase patientCase
 
     static constraints = {
     	lastName nullable: false, blank: false
@@ -23,6 +25,7 @@ class Person {
     	contactNumber nullable: false, blank: false
     	emailAddress nullable: true, blank: true, unique: true
     	exposureSetting nullable: true
+        patientCase nullable: true
     }
 
     public def getFullName(Boolean alt = false) {

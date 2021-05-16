@@ -19,11 +19,27 @@
                 <div class="message" role="status">${flash.message}</div>
             </g:if>
 
+            <g:form method="GET" action="index">
+                <div class="row">
+                    <div class="col-sm-5">
+                        <span class="help-block">Start Date</span>
+                        <g:field class="form-control" id="date-start" type="date" name="startDate" placeholder="date" value="${params.startDate}" max="${new java.text.SimpleDateFormat('yyyy-MM-dd').format(new Date())}" />
+                    </div>
+                    <div class="col-sm-5">
+                        <span class="help-block">End Date</span>
+                        <g:field class="form-control" id="date-end" type="date" name="endDate" placeholder="date" value="${params.endDate}" min="${params.startDate}" max="${new java.text.SimpleDateFormat('yyyy-MM-dd').format(new Date())}" />
+                    </div>
+                    <div class="col-sm-2">
+                        <g:submitButton class="btn btn-sm btn-primary" name="submit" value="Submit" />
+                    </div>
+                </div>
+            </g:form>
+
             <span>*Tentative <strike>Rejected</strike></span>
             <table id="patientCaseList" class="table export-table">
                 <thead>
                     <th>ID</th>
-                    <th>Date Added</th>
+                    <th>Date Interviewed</th>
                     <th>Patient Name</th>
                     <th>Current Status</th>
                     <th class="not-for-export"></th>
@@ -32,7 +48,7 @@
                     <g:each in="${patientCaseList}">
                         <tr>
                             <td>${it?.caseNum}</td>
-                            <td><g:formatDate format="MMMM dd, YYYY" date="${it?.dateCreated}"/></td>
+                            <td><g:formatDate format="MMMM dd, YYYY" date="${it?.dateInterviewed}"/></td>
                             <td>${it?.patient?.getFullName(true)}</td>
                             <td>
                                 <% def laboratoryInfoInstance = it?.labTests?.isEmpty() ? null : it?.labTests?.last() %>
@@ -59,5 +75,14 @@
                 </tbody>
             </table>
         </div>
+        <g:javascript>
+            $(document).ready(function(){
+                $("#date-start").change(function() {
+                    var val = $(this).val()
+
+                    $("#date-end").attr('min', val)
+                })
+            });
+        </g:javascript>
     </body>
 </html>

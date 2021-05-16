@@ -20,9 +20,26 @@
                 <tbody>
                     <g:each in="${addressList}">
                         <tr>
-                            <td>${it?.patient?.fullName}</td>
-                            <td>${it?.addressType}: ${it?.fullAddress}</td>
-                            <td>${it?.phoneNumber}/${it?.cellNumber}</td>
+                            <td>
+                                <g:if test="${it?.patient}">${it?.patient?.fullName}</g:if>
+                                <g:elseif test="${it?.patientCase}">${it?.patientCase?.patient?.fullName}</g:elseif>
+                            </td>
+                            <td>
+                                <g:if test="${it?.addressType}">
+                                    ${it?.addressType}: ${it?.fullAddress}
+                                </g:if>
+                                <g:elseif test="${it?.facilityType}">
+                                    ${it?.facilityType}: ${it?.placeName}
+                                </g:elseif>
+                            </td>
+                            <td>
+                                <g:if test="${it?.phoneNumber}">
+                                    ${it?.phoneNumber} <br />
+                                </g:if>
+                                <g:if test="${it?.cellNumber}">
+                                    ${it?.cellNumber}
+                                </g:if>
+                            </td>
                             <td>${it?.emailAddress}</td>
                             <td>
                                 <g:link action="show" id="${it?.id}">View</g:link>

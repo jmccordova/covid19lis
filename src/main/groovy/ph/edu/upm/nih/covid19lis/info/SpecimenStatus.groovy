@@ -6,6 +6,7 @@ public enum SpecimenStatus {
 	FOR_PROCESSING ("For processing"),
 	FOR_VERIFICATION_MT1 ("For verification of 1st Medical Technician"),
 	FOR_VERIFICATION_MT2 ("For verification of 2nd Medical Technician"),
+	FOR_VERIFICATION_SUP ("For verification of Supervising Medical Technician"),
 	FOR_VERIFICATION_QA ("For verification of Quality Assurance"),
 	FOR_VERIFICATION_MB ("For verification of Molecular Biologist"),
 	FOR_VERIFICATION_PATH ("For verification of Supervisor/Pathologist"),

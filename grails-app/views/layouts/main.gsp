@@ -11,10 +11,23 @@
 
     <asset:stylesheet src="application.css"/>
     <asset:javascript src="jquery-3.3.1.min.js" />
+    <asset:javascript src="spinner.js"/>
     <g:layoutHead/>
 </head>
 <g:set var="springSecurityService" bean="springSecurityService"/>
 <body class="c-app">
+    <div id="spinner" class="spinner">
+        <div class="container">
+            <div id="spinner-container" class="row">
+                <div class="col">
+                    <div class="progress">
+                        <div class="indeterminate"></div>
+                    </div>
+                    <h3 class="flow-text">Loading...</h3>
+                </div>
+            </div>
+        </div>
+    </div>
     <sec:ifLoggedIn>
         <div class="c-sidebar c-sidebar-dark c-sidebar-fixed c-sidebar-lg-show" id="sidebar">
             <div class="c-sidebar-brand d-lg-down-none">
@@ -168,18 +181,6 @@
             <main class="c-main">
                 <div class="container-fluid">
                     <g:layoutBody/>
-                </div>
-                <div id="spinner" class="spinner">
-                    <div class="container">
-                        <div id="spinner-container" class="row">
-                            <div class="col s12 m12 l12">
-                                <div class="progress">
-                                    <div class="indeterminate"></div>
-                                </div>
-                                <h3 class="flow-text">Loading...</h3>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </main>
         </div>

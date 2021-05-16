@@ -27,10 +27,11 @@ class BootStrap {
         	new Patient(patientNum: codeGeneratorService.getPatientNum(), firstName: "Ardene", middleName: "Poon", lastName: "Devonald", contactNumber: "7143792760", emailAddress: "adevonald2@google.cn", birthday: "1938-02-07T21:03:34Z", sex: Sex.FEMALE, civilStatus: CivilStatus.WIDOWED, nationality: "United States", occupation: "Product Engineer").save(failOnError: true)
         }
         
-        if(!Role.findByAuthorityInList(["ROLE_MT", "ROLE_QA", "ROLE_MB", "ROLE_PATH"])) {
+        if(!Role.findByAuthorityInList(["ROLE_MT", "ROLE_QA", "ROLE_MB", "ROLE_SUP", "ROLE_PATH"])) {
             new Role(authority: "ROLE_MT", name: "Medical Technician").save(failOnError: true)
             new Role(authority: "ROLE_QA", name: "Quality Assurance").save(failOnError: true)
             new Role(authority: "ROLE_MB", name: "Molecular Biologist").save(failOnError: true)
+            new Role(authority: "ROLE_SUP", name: "Supervisor").save(failOnError: true)
             new Role(authority: "ROLE_PATH", name: "Supervisor/Pathologist").save(failOnError: true)
 
             StaffRole.withTransaction { status -> 

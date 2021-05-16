@@ -32,28 +32,26 @@
                         </div>
                         <div class="card-body">
                             <g:if test="${patientCaseInstance?.placesVisited}">
-                                <table class="table table-responsive table-bordered">
+                                <table class="table table-responsive">
                                     <thead>
                                         <th>Date</th>
                                         <th>Type</th>
-                                        <th>Address</th>
+                                        <th>Name</th>
                                         <th>With community transmission?</th>
                                     </thead>
                                     <tbody>
                                         <g:each in="${patientCaseInstance?.placesVisited}">
                                             <tr>
-                                                <td>${it?.dateVisitedFrom} - ${it?.dateVisitedTo}</td>
+                                                <td><g:formatDate format="MMMM dd, YYYY" date="${it?.dateVisitedFrom}"/> - <g:formatDate format="MMMM dd, YYYY" date="${it?.dateVisitedTo}"/></td>
                                                 <td>${it?.facilityType}</td>
-                                                <td></td>
-                                                <td></td>
+                                                <td>${it?.placeName}</td>
+                                                <td>${it?.commTransmission ? 'Yes' : 'No'}</td>
                                             </tr>
                                         </g:each>
                                     </tbody>
                                 </table>
                             </g:if>
-                            <g:else>
-                                <g:link controller="address" action="create" class="btn btn-sm btn-info" params="[patientCase: patientCaseInstance?.id]">Add</g:link>
-                            </g:else>
+                            <g:link controller="address" action="createVisit" class="btn btn-sm btn-info" params="[patientCase: patientCaseInstance?.id]">Add</g:link>
                         </div>
                     </div>
                 </div>
@@ -68,20 +66,20 @@
                                     <thead>
                                         <th>Name</th>
                                         <th>Phone No.</th>
+                                        <th>Exposure</th>
                                     </thead>
                                     <tbody>
                                         <g:each in="${patientCaseInstance?.contacts}">
                                             <tr>
                                                 <td>${it?.fullName}</td>
                                                 <td>${it?.contactNumber}</td>
+                                                <td>${it?.exposureSetting}</td>
                                             </tr>
                                         </g:each>
                                     </tbody>
                                 </table>
                             </g:if>
-                            <g:else>
-                                <g:link controller="person" action="create" class="btn btn-sm btn-info" params="[patientCase: patientCaseInstance?.id]">Add</g:link>
-                            </g:else>
+                            <g:link controller="person" action="create" class="btn btn-sm btn-info" params="[patientCase: patientCaseInstance?.id]">Add</g:link>
                         </div>
                     </div>
                 </div>
