@@ -50,8 +50,8 @@
                                 </g:if>
                             </td>
                             <td>
-                                <g:link action="show" id="${it?.id}">View</g:link>
-                                <g:link action="edit" id="${it?.id}">Edit</g:link>
+                                <g:link class="btn btn-small btn-info" action="show" id="${it?.id}">View</g:link>
+                                <g:link class="btn btn-small btn-info" action="edit" id="${it?.id}">Edit</g:link>
                             </td>
                         </tr>
                     </g:each>

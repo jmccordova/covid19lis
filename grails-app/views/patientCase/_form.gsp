@@ -26,6 +26,13 @@
 		    </div>
 		    <div class="card-body">
 		    	<div class="form-group">
+					<label for="diseaseReportingUnit">
+						Disease Reporting Unit
+						<span class="required-indicator">*</span>
+					</label>
+					<g:textField name="diseaseReportingUnit" id="diseaseReportingUnit" class="form-control" value="${patientCaseInstance?.diseaseReportingUnit}" required="" />
+				</div>
+		    	<div class="form-group">
 			        <label for="dateInterviewed">
 						Date of Interview
 						<span class="required-indicator">*</span>

@@ -6,6 +6,9 @@ import ph.edu.upm.nih.Person
 import ph.edu.upm.nih.Address
 import ph.edu.upm.nih.FacilityType
 import ph.edu.upm.nih.covid19lis.info.Comorbidity
+
+// import org.joda.time.DateTime
+// import org.joda.time.Period
 class Patient extends Person {
 
 	String patientNum
@@ -66,6 +69,27 @@ class Patient extends Person {
     }
 
     public def getAge() {
-    	return new Date() - birthday
+    	def age = new Date() - birthday
+    	// def period = new Period(this.birthday, new DateTime())
+
+    	// period.getYears()
+	    // int years = period.getYears()
+	    // int months = period.getMonths()
+	    // int weeks = period.getWeeks()
+	    // int days = period.getDays()
+
+	    // String age
+
+	    // if (years > 0) {
+	    //     age = "${years} year(s) and ${months} month(s)"
+	    // } else if (months > 0) {
+	    //     age = "${months} month(s)"
+	    // } else if (weeks > 0) {
+	    //     age = "${weeks} week(s)"
+	    // } else {
+	    //     age = "${days} day(s)"
+	    // }
+
+	    age
     }
 }

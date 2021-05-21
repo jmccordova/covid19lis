@@ -13,6 +13,7 @@ class PatientCase {
 	// Part 1. Patient Information
 	// 1. Testing category
 	Date dateInterviewed
+	String diseaseReportingUnit
 	ClientType clientType
 	TestCategory testCategory
 	// 5. Consultation and Admission Information
@@ -75,6 +76,7 @@ class PatientCase {
     	patient nullable: false
 
     	dateInterviewed nullable: false, blank: false
+    	diseaseReportingUnit nullable: false, blank: false
     	caseNum nullable: true, blank: true, unique: true		// Temporary. A case number shall be auto generated.
     	clientType nullable: false
     	testCategory nullable: false
