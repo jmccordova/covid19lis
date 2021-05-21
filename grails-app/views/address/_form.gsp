@@ -64,7 +64,7 @@
 				<div class="row">
 				    <div class="col-sm-6">
 				        <label for="municipality">
-							Municipality
+							Municipality or City
 							<span class="required-indicator">*</span>
 						</label>
 						<g:textField name="municipality" id="municipality" class="form-control" value="${addressInstance?.municipality}" required="" />
@@ -92,7 +92,7 @@
 								Cellphone Number
 								<span class="required-indicator">*</span>
 							</label>
-							<g:textField name="cellNumber" id="cellNumber" class="form-control" value="${addressInstance?.cellNumber}" required="" />
+							<g:textField name="cellNumber" id="cellNumber" class="form-control" value="${addressInstance?.cellNumber}" required="" pattern="^(0|63)\d{10}$"/>
 				        </div>
 				    </div>
 				    <div class="col-sm-6">
@@ -101,7 +101,7 @@
 								E-mail Address
 								<span class="required-indicator">*</span>
 							</label>
-							<g:textField name="emailAddress" id="emailAddress" class="form-control" value="${addressInstance?.emailAddress}" required="" />
+							<g:field type="email" name="emailAddress" id="emailAddress" class="form-control" value="${addressInstance?.emailAddress}" required="" />
 				        </div>
 				    </div>
 				</div>

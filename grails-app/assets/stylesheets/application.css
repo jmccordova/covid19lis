@@ -52,3 +52,7 @@ main {
 .hidden {
 	display: none;
 }
+
+span.danger {
+	color: #e55353;
+}

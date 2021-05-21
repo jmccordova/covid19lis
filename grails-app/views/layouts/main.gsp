@@ -81,6 +81,16 @@
                     </g:link>
                     <ul class="c-sidebar-nav-dropdown-items">
                         <li class="c-sidebar-nav-item">
+                            <g:link class="c-sidebar-nav-link" controller="export" action="lineList">
+                                <span class="c-sidebar-nav-icon cil-"></span> Line List
+                            </g:link>
+                        </li>
+                        <li class="c-sidebar-nav-item">
+                            <g:link class="c-sidebar-nav-link" controller="export" action="sourceFile">
+                                <span class="c-sidebar-nav-icon cil-"></span> Source File
+                            </g:link>
+                        </li>
+                        <li class="c-sidebar-nav-item">
                             <g:link class="c-sidebar-nav-link" uri="#">
                                 <span class="c-sidebar-nav-icon cil-"></span> CIF
                             </g:link>
@@ -105,6 +115,12 @@
                     <g:link class="c-sidebar-nav-link" controller="staff" action="index">
                         <span class="c-sidebar-nav-icon cil-medical-cross"></span>
                         Staff
+                    </g:link>
+                </li>
+                <li class="c-sidebar-nav-item">
+                    <g:link class="c-sidebar-nav-link" controller="testKit" action="index">
+                        <span class="c-sidebar-nav-icon cil-cart"></span>
+                        Inventory
                     </g:link>
                 </li>
                 <li class="c-sidebar-nav-item">
