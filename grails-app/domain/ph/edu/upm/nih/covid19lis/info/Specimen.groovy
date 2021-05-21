@@ -2,6 +2,8 @@ package ph.edu.upm.nih.covid19lis.info
 
 import ph.edu.upm.nih.Staff
 import ph.edu.upm.nih.covid19lis.patient.PatientCase
+
+import java.text.SimpleDateFormat
 class Specimen {
 
 	Date dateCreated
@@ -9,13 +11,15 @@ class Specimen {
 
 	// 13. Laboratory Information
 	Date dateCollected
+    String healthFacilityName
     Integer ziplockNum
 	LabTest labTest 		// Enum: RT-PCR, Antigen, Antibody
     String specimenNum
 	SpecimenStatus status = SpecimenStatus.SUBMITTED
 	String specimenRemarks
-	TestKit testKit
+	TestKit extractionKit
     Date dateAnalyzed
+    TestKit pcrKit
 	LabResult labResult = LabResult.PENDING
 	Date dateReleased
     String resultRemarks
@@ -32,13 +36,15 @@ class Specimen {
 
     static constraints = {
     	dateCollected nullable: false, blank: false
-        ziplockNum nullable: false, blank: false
-        testKit nullable: false, blank: false
+        healthFacilityName nullable: false, blank: false
+        ziplockNum nullable: false, blank: false, unique: true
+        extractionKit nullable: false, blank: false
         specimenNum nullable: false, blank: false, unique: true
         status nullable: false, blank: false
         specimenRemarks nullable: true, blank: true
         labTest nullable: false, blank: false
         dateAnalyzed nullable: true, blank: true
+        pcrKit nullable: true, blank: true
     	labResult nullable: false, blank: false
     	dateReleased nullable: true, blank: true
         resultRemarks nullable: true, blank: true
@@ -79,5 +85,34 @@ class Specimen {
         }
 
         specimenList
+    }
+
+    static def getByDate(Date start = null, Date end = null) {
+        def specimenList
+        if(start && !end) end = start
+        else if(!start && end) start = end
+
+        if(!start && !end) {
+            specimenList = Specimen.list()
+        } else {
+            specimenList = Specimen.executeQuery("FROM Specimen WHERE dateCollected BETWEEN :start AND :end", [start: start, end: end])
+        }
+    }
+
+    public def getOrdinal() {
+        def i = patientCase.labTests.findIndexOf{it == this} + 1
+        def suffixes = ["th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th"]
+        def ordinal
+        switch (i % 100) {
+        case 11:
+        case 12:
+        case 13:
+            ordinal = i + "th"
+        default:
+            ordinal = i + suffixes[i % 10]
+
+        }
+
+        ordinal
     }
 }

@@ -6,9 +6,25 @@
 		        <small>Form</small>
 		    </div>
 		    <div class="card-body">
+		    	<div class="form-group">
+					<label for="dateAnalyzed">
+						Analysis Date
+						<span class="required-indicator">*</span>
+					</label>
+					<g:datePicker name="dateAnalyzed" id="dateAnalyzed" class="form-control" value="${specimenInstance?.dateAnalyzed}" precision="day" required="" />
+				</div>
+
+				<div class="form-group">
+					<label for="pcrKit.id">
+						PCR Kit Used
+						<span class="required-indicator">*</span>
+					</label>
+					<g:select name="pcrKit.id" id="pcrKit.id" class="validate select2" class="form-control" value="${specimenInstance?.pcrKit?.id}" from="${ph.edu.upm.nih.covid19lis.info.TestKit.findByTestKitType(ph.edu.upm.nih.covid19lis.info.TestKitType.PCR)}" optionKey="id" optionValue="${{it.brand + ' (' + it.lotNum + ')'}}" noSelection="['':'Select Kit']" required=""/>
+				</div>
+
 				<div class="form-group">
 					<label for="dateReleased">
-						Result Released Date
+						Release Date
 						<span class="required-indicator">*</span>
 					</label>
 					<g:datePicker name="dateReleased" id="dateReleased" class="form-control" value="${specimenInstance?.dateReleased}" precision="day" required="" />

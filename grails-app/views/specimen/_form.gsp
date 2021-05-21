@@ -36,6 +36,20 @@
 		        <small>Form</small>
 		    </div>
 		    <div class="card-body">
+		        <div class="form-group">
+		        	<label for="healthFacilityName">
+						Health Facility
+						<span class="required-indicator">*</span>
+					</label>
+					<g:textField name="healthFacilityName" id="healthFacilityName" class="form-control" value="${specimenInstance?.healthFacilityName}" required="" />
+		        </div>
+		    	<div class="form-group">
+					<label for="ziplockNum">
+						Ziplock Number
+						<span class="required-indicator">*</span>
+					</label>
+					<g:field type="number" min="${0}" name="ziplockNum" id="ziplockNum" class="form-control" value="${specimenInstance?.ziplockNum}" required="" />
+				</div>
 				<div class="form-group">
 					<label for="dateCollected">
 						Date Collected
@@ -53,11 +67,11 @@
 				</div>
 
 				<div class="form-group">
-					<label for="testKit">
-						Test Kit Used
+					<label for="extractionKit.id">
+						Extraction Kit Used
 						<span class="required-indicator">*</span>
 					</label>
-					<g:select name="testKit" id="testKit" class="validate select2" class="form-control" value="${specimenInstance?.testKit?.id}" from="${ph.edu.upm.nih.covid19lis.info.TestKit.list()}" optionKey="id" optionValue="lotNum" noSelection="['':'Select Kit']" required=""/>
+					<g:select name="extractionKit.id" id="extractionKit.id" class="validate select2" class="form-control" value="${specimenInstance?.extractionKit?.id}" from="${ph.edu.upm.nih.covid19lis.info.TestKit.findByTestKitType(ph.edu.upm.nih.covid19lis.info.TestKitType.EXTRACT)}" optionKey="id" optionValue="${{it.brand + ' (' + it.lotNum + ')'}}" noSelection="['':'Select Kit']" required=""/>
 				</div>
 
 				<div class="form-group">

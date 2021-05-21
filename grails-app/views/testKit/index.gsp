@@ -19,13 +19,14 @@
                 <div class="message" role="status">${flash.message}</div>
             </g:if>
 
-            <table>
+            <table id="testKitList" class="table export-table">
                 <thead>
                     <th>Date Received</th>
                     <th>Brand</th>
                     <th>Lot No.</th>
                     <th>Test Kit Type</th>
                     <th>Current Count</th>
+                    <th>Expiration Date</th>
                     <th></th>
                 </thead>
                 <tbody>
@@ -35,10 +36,11 @@
                             <td>${it?.brand}</td>
                             <td>${it?.lotNum}</td>
                             <td>${it?.testKitType}</td>
-                            <td><small>out of ${it?.totalReceived}</small></td>
+                            <td><span class="${it?.needsReorder() ? 'danger' : ''}">${it?.currentCount}<small>/${it?.totalReceived}</small></span></td>
+                            <td><g:formatDate format="MMMM dd, YYYY" date="${it?.dateExpiration}"/></td>
                             <td>
-                                <g:link action="show" id="${it?.id}">View</g:link>
-                                <g:link action="edit" id="${it?.id}">Edit</g:link>
+                                <g:link class="btn btn-small btn-info" action="show" id="${it?.id}">View</g:link>
+                                <g:link class="btn btn-small btn-info" action="edit" id="${it?.id}">Edit</g:link>
                             </td>
                         </tr>
                     </g:each>
