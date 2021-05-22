@@ -1,7 +1,6 @@
 package ph.edu.upm.nih.covid19lis.info
 
 import ph.edu.upm.nih.covid19lis.patient.PatientCase
-import org.apache.commons.lang3.StringUtils;
 
 class ClinicalInfo {
 
@@ -58,7 +57,7 @@ class ClinicalInfo {
     	}
 
     	if(otherSymptoms) s += otherSymptoms
-    	else s = SpringUtils.chop(s)
+    	
     	s
     }
 

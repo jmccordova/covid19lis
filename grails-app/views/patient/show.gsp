@@ -40,6 +40,7 @@
                                     <th>Phone Number</th>
                                     <th>Cell Number</th>
                                     <th>E-mail Address</th>
+                                    <th></th>
                                 </thead>
                                 <tbody>
                                     <g:each in="${patientInstance?.addresses}">
@@ -49,13 +50,17 @@
                                             <td>${it?.phoneNumber}</td>
                                             <td>${it?.cellNumber}</td>
                                             <td>${it?.emailAddress}</td>
+                                            <td>
+                                                <g:link class="btn btn-small btn-info" controller="address" action="show" id="${it?.id}">View</g:link>
+                                                <g:link class="btn btn-small btn-info" controller="address" action="edit" id="${it?.id}">Edit</g:link>
+                                            </td>
                                         </tr>
                                     </g:each>
                                 </tbody>
                                 <tfoot>
                                     <tr>
                                         <td colspan="5">
-                                            <g:link controller="address" action="create" params="[patient: patientInstance?.id]">Add</g:link>
+                                            <g:link class="btn btn-small btn-primary" controller="address" action="create" params="[patient: patientInstance?.id]">Add</g:link>
                                         </td>
                                     </tr>
                                 </tfoot>
@@ -90,7 +95,8 @@
                                             <td>${it?.healthStatus?.toString()}</td>
                                             <td>${it?.caseClassification?.toString()}</td>
                                             <td>
-                                                <g:link controller="patientCase" action="show" id="${it?.id}">View</g:link>
+                                                <g:link class="btn btn-small btn-info" controller="patientCase" action="show" id="${it?.id}">View</g:link>
+                                                <g:link class="btn btn-small btn-info" controller="patientCase" action="edit" id="${it?.id}">Edit</g:link>
                                             </td>
                                         </tr>
                                     </g:each>
@@ -98,7 +104,7 @@
                                 <tfoot>
                                     <tr>
                                         <td colspan="6">
-                                            <g:link controller="patientCase" action="create" params="[patient: patientInstance?.id]">Add</g:link>
+                                            <g:link class="btn btn-small btn-primary" controller="patientCase" action="create" params="[patient: patientInstance?.id]">Add</g:link>
                                         </td>
                                     </tr>
                                 </tfoot>
@@ -112,8 +118,8 @@
                 <div class="col-12">
                     <g:form resource="${this.patientInstance}" method="DELETE">
                         <fieldset class="buttons">
-                            <g:link class="btn btn-block btn-primary" action="edit" resource="${this.patientInstance}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
-                            <input class="btn btn-block btn-danger" type="submit" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
+                            <g:link class="btn btn-primary" action="edit" resource="${this.patientInstance}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
+                            <input class="btn btn-danger" type="submit" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
                         </fieldset>
                     </g:form>
                 </div>

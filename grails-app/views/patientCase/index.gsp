@@ -58,7 +58,7 @@
                                 </g:if>
 
                                 ${laboratoryInfoInstance?.labResult}
-                                <g:if test="${laboratoryInfoInstance?.status != ph.edu.upm.nih.covid19lis.info.SpecimenStatus.RESULT_ACCEPTED || laboratoryInfoInstance?.status != ph.edu.upm.nih.covid19lis.info.SpecimenStatus.RESULT_REJECTED}">
+                                <g:if test="${laboratoryInfoInstance?.status != ph.edu.upm.nih.covid19lis.info.SpecimenStatus.RESULT_ACCEPTED && laboratoryInfoInstance?.status != ph.edu.upm.nih.covid19lis.info.SpecimenStatus.RESULT_REJECTED}">
                                     <strong>*</strong>
                                 </g:if>
 

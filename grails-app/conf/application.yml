@@ -125,8 +125,9 @@ environments:
             logSql: false
             # dbCreate: create-drop
             # url: jdbc:h2:mem:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
+            # If MariaDB installation on Linux has some issues, follow this: https://stackoverflow.com/questions/39281594/error-1698-28000-access-denied-for-user-rootlocalhost
             dbCreate: update
-            url: "jdbc:mysql://localhost:3306/nih_covid19lis?autoReconnect=true"
+            url: "jdbc:mysql://localhost:3306/dev_covid19lis?autoReconnect=true"
             driverClassName: "com.mysql.jdbc.Driver"
             dialect: "org.hibernate.dialect.MySQL5InnoDBDialect"
             username: "root"

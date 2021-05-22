@@ -20,6 +20,10 @@ class AddressController {
         render view: "show", model: [addressInstance: addressService.get(id)]
     }
 
+    def showVisit(Long id) {
+        render view: "showVisit", model: [addressInstance: addressService.get(id)]
+    }
+
     def create() {
         respond new Address(params)
     }
@@ -52,6 +56,10 @@ class AddressController {
 
     def edit(Long id) {
         render view: "edit", model: [addressInstance: addressService.get(id)]
+    }
+
+    def editVisit(Long id) {
+        render view: "editVisit", model: [addressInstance: addressService.get(id)]
     }
 
     def update(Address address) {

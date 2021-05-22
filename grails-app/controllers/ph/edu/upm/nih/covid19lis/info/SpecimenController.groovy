@@ -148,6 +148,9 @@ class SpecimenController {
                     nextDecision = 'acceptMT2'
                     break
                 case SpecimenStatus.FOR_VERIFICATION_MT2:
+                    nextDecision = 'acceptSUP'
+                    break
+                case SpecimenStatus.FOR_VERIFICATION_SUP:
                     nextDecision = 'acceptQA'
                     break
                 case SpecimenStatus.FOR_VERIFICATION_QA:

@@ -92,7 +92,7 @@
 								Cellphone Number
 								<span class="required-indicator">*</span>
 							</label>
-							<g:textField name="cellNumber" id="cellNumber" class="form-control" value="${addressInstance?.cellNumber}" required="" pattern="^(0|63)\d{10}$"/>
+							<input type="text" name="cellNumber" id="cellNumber" class="form-control" value="${addressInstance?.cellNumber}" required="" pattern="^(0|63)\d{10}$" />
 				        </div>
 				    </div>
 				    <div class="col-sm-6">

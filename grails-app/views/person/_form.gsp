@@ -21,7 +21,7 @@
 						<span class="required-indicator">*</span>
 				    </label>
 				    <% def patientInstance = patientCaseInstance ? patientCaseInstance?.patient : ph.edu.upm.nih.covid19lis.patient.Patient.findById(params.long('patient')) %>
-				    <g:select name="patient.id" id="patient.id" class="form-control select2" class="form-control" value="${patientInstance?.id}" from="${ph.edu.upm.nih.covid19lis.patient.Patient.list()}" optionKey="id" optionValue="fullName"  noSelection="['':'Select Patient']" disabled="" />
+				    <g:select name="patient.id" id="patient.id" class="form-control select2" class="form-control" value="${patientInstance?.id}" from="${ph.edu.upm.nih.covid19lis.patient.Patient.list()}" optionKey="id" optionValue="fullName"  noSelection="['':'Select Patient']" required="" />
 				</div>
 			</div>
 		</div>

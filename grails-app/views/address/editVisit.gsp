@@ -29,7 +29,7 @@
             <g:form resource="${this.address}" method="PUT">
                 <g:hiddenField name="version" value="${this.address?.version}" />
                 <fieldset class="form">
-                    <g:render template="form" />
+                    <g:render template="visit_form" />
                 </fieldset>
                 <fieldset class="buttons">
                     <input class="btn btn-primary" type="submit" value="${message(code: 'default.button.update.label', default: 'Update')}" />

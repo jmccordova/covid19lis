@@ -70,7 +70,7 @@ class ExportController {
                     putCellValue(i, 0, it?.specimenNum)
                     putCellValue(i, 1, it?.patientCase?.patient?.lastName)
                     putCellValue(i, 2, it?.patientCase?.patient?.firstName)
-                    putCellValue(i, 3, it?.patientCase?.patient?.middleName)
+                    putCellValue(i, 3, it?.patientCase?.patient?.middleName ? it?.patientCase?.patient?.middleName : '')
                     putCellValue(i, 4, it?.patientCase?.patient?.birthday?.format("MMM dd, yyyy"))
                     putCellValue(i, 5, it?.patientCase?.patient?.sex?.toString())
                     def homeAddress = Address.findByPatientAndAddressType(it?.patientCase?.patient, AddressType.CURR_HOME)
@@ -127,12 +127,13 @@ class ExportController {
                 def i = 1
                 def now = new Date().format("MMM dd, yyyy")
                 specimenList.each {
+                    putCellValue(i, 0, it?.patientCase?.caseNum)
                     putCellValue(i, 1, it?.specimenNum)
                     putCellValue(i, 2, it?.dateCollected?.format("MMM dd, yyyy"))
                     putCellValue(i, 3, it?.dateCreated?.format("MMM dd, yyyy"))
                     putCellValue(i, 4, it?.patientCase?.patient?.lastName)
                     putCellValue(i, 5, it?.patientCase?.patient?.firstName)
-                    putCellValue(i, 6, it?.patientCase?.patient?.middleName)
+                    putCellValue(i, 6, it?.patientCase?.patient?.middleName ? it?.patientCase?.patient?.middleName : '')
                     putCellValue(i, 7, it?.patientCase?.patient?.birthday?.format("MMM dd, yyyy"))
                     putCellValue(i, 8, it?.patientCase?.patient?.age)
                     putCellValue(i, 9, it?.patientCase?.patient?.sex?.toString())
