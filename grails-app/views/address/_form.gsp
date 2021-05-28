@@ -30,7 +30,7 @@
 						What address is this for?
 						<span class="required-indicator">*</span>
 					</label>
-					<g:select name="addressType" id="addressType" class="form-control" value="${addressInstance?.addressType}" from="${ph.edu.upm.nih.AddressType}"optionKey="key" noSelection="['':'Select Type of Address']" required=""/>
+					<g:select name="addressType" id="addressType" class="form-control" value="${addressInstance?.addressType}" from="${ph.edu.upm.nih.AddressType}" optionKey="key" noSelection="['':'Select Type of Address']" required=""/>
 		        </div>
 		        <div class="row">
 		        	<div class="col-sm-2">

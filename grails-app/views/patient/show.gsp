@@ -86,7 +86,7 @@
                                 <tbody>
                                     <g:each in="${patientInstance?.cases}">
                                         <tr>
-                                            <td><g:formatDate format="MMMM dd, YYYY" date="${it?.dateInterviewed}"/></td>
+                                            <td><g:formatDate format="MMMM d, YYYY" date="${it?.dateInterviewed}"/></td>
                                             <td>${it?.testCategory?.toString()}</td>
                                             <td>
                                                 ${it?.dispositionType?.toString()} <br />

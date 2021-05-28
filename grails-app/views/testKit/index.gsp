@@ -32,12 +32,12 @@
                 <tbody>
                     <g:each in="${testKitList}">
                         <tr>
-                            <td><g:formatDate format="MMMM dd, YYYY" date="${it?.dateReceived}"/></td>
+                            <td><g:formatDate format="MMMM d, YYYY" date="${it?.dateReceived}"/></td>
                             <td>${it?.brand}</td>
                             <td>${it?.lotNum}</td>
                             <td>${it?.testKitType}</td>
                             <td><span class="${it?.needsReorder() ? 'danger' : ''}">${it?.currentCount}<small>/${it?.totalReceived}</small></span></td>
-                            <td><g:formatDate format="MMMM dd, YYYY" date="${it?.dateExpiration}"/></td>
+                            <td><g:formatDate format="MMMM d, YYYY" date="${it?.dateExpiration}"/></td>
                             <td>
                                 <g:link class="btn btn-small btn-info" action="show" id="${it?.id}">View</g:link>
                                 <g:link class="btn btn-small btn-info" action="edit" id="${it?.id}">Edit</g:link>

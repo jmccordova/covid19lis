@@ -48,7 +48,7 @@
                     <g:each in="${patientCaseList}">
                         <tr>
                             <td>${it?.caseNum}</td>
-                            <td><g:formatDate format="MMMM dd, YYYY" date="${it?.dateInterviewed}"/></td>
+                            <td><g:formatDate format="MMMM d, YYYY" date="${it?.dateInterviewed}"/></td>
                             <td>${it?.patient?.getFullName(true)}</td>
                             <td>
                                 <% def laboratoryInfoInstance = it?.labTests?.isEmpty() ? null : it?.labTests?.last() %>

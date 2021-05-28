@@ -42,7 +42,7 @@
                                     <tbody>
                                         <g:each in="${patientCaseInstance?.placesVisited}">
                                             <tr>
-                                                <td><g:formatDate format="MMMM dd, YYYY" date="${it?.dateVisitedFrom}"/> - <g:formatDate format="MMMM dd, YYYY" date="${it?.dateVisitedTo}"/></td>
+                                                <td><g:formatDate format="MMMM d, YYYY" date="${it?.dateVisitedFrom}"/> - <g:formatDate format="MMMM d, YYYY" date="${it?.dateVisitedTo}"/></td>
                                                 <td>${it?.facilityType}</td>
                                                 <td>${it?.placeName}</td>
                                                 <td>${it?.commTransmission ? 'Yes' : 'No'}</td>
@@ -114,7 +114,7 @@
                                             </g:if>
                                             <g:else>
                                                 ${patientCaseInstance?.clinicalTest?.chestRadResult}
-                                                <small>Tested last: <g:formatDate format="MMMM dd, YYYY" date="${patientCaseInstance?.clinicalTest?.dateChestRadResult}"/></small>
+                                                <small>Tested last: <g:formatDate format="MMMM d, YYYY" date="${patientCaseInstance?.clinicalTest?.dateChestRadResult}"/></small>
                                             </g:else>
                                         </td>
                                     </tr>
@@ -126,7 +126,7 @@
                                             </g:if>
                                             <g:else>
                                                 ${patientCaseInstance?.clinicalTest?.chestCTResult}
-                                                <small>Tested last: <g:formatDate format="MMMM dd, YYYY" date="${patientCaseInstance?.clinicalTest?.dateChestCTResult}"/></small>
+                                                <small>Tested last: <g:formatDate format="MMMM d, YYYY" date="${patientCaseInstance?.clinicalTest?.dateChestCTResult}"/></small>
                                             </g:else>
                                         </td>
                                     </tr>
@@ -138,7 +138,7 @@
                                             </g:if>
                                             <g:else>
                                                 ${patientCaseInstance?.clinicalTest?.lungUSResult}
-                                                <small>Tested last: <g:formatDate format="MMMM dd, YYYY" date="${patientCaseInstance?.clinicalTest?.dateLungUSResult}"/></small>
+                                                <small>Tested last: <g:formatDate format="MMMM d, YYYY" date="${patientCaseInstance?.clinicalTest?.dateLungUSResult}"/></small>
                                             </g:else>
                                         </td>
                                     </tr>
@@ -174,10 +174,10 @@
                                         <g:each in="${patientCaseInstance?.labTests}">
                                             <tr>
                                                 <td>${it?.labTest}</td>
-                                                <td><g:formatDate format="MMMM dd, YYYY" date="${it?.dateCollected}"/></td>
+                                                <td><g:formatDate format="MMMM d, YYYY" date="${it?.dateCollected}"/></td>
                                                 <td>${it?.specimenNum}</td>
                                                 <td>${it?.status}</td>
-                                                <td>${it?.labResult} <small>Released: <g:formatDate format="MMMM dd, YYYY" date="${it?.dateReleased}"/></small></td>
+                                                <td>${it?.labResult} <small>Released: <g:formatDate format="MMMM d, YYYY" date="${it?.dateReleased}"/></small></td>
                                             </tr>
                                         </g:each>
                                     </tbody>

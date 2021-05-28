@@ -37,7 +37,7 @@
                             <td>${it?.allSymptoms}</td>
                             <td>
                                 <g:if test="${it?.hasChestRad}">
-                                    ${it?.correctChestRadResult} <small>Tested: <g:formatDate format="MMMM dd, YYYY" date="${it?.dateChestRadTest}"/></small>
+                                    ${it?.correctChestRadResult} <small>Tested: <g:formatDate format="MMMM d, YYYY" date="${it?.dateChestRadTest}"/></small>
                                 </g:if>
                                 <g:else>
                                     Not yet tested
@@ -45,7 +45,7 @@
                             </td>
                             <td>
                                 <g:if test="${it?.hasChestCT}">
-                                    ${it?.correctChestCTResult} <small>Tested: <g:formatDate format="MMMM dd, YYYY" date="${it?.dateChestCTTest}"/></small>
+                                    ${it?.correctChestCTResult} <small>Tested: <g:formatDate format="MMMM d, YYYY" date="${it?.dateChestCTTest}"/></small>
                                 </g:if>
                                 <g:else>
                                     Not yet tested
@@ -53,7 +53,7 @@
                             </td>
                             <td>
                                 <g:if test="${it?.hasLungUS}">
-                                    ${it?.correctLungUSResult} <small>Tested: <g:formatDate format="MMMM dd, YYYY" date="${it?.dateLungUSTest}"/></small>
+                                    ${it?.correctLungUSResult} <small>Tested: <g:formatDate format="MMMM d, YYYY" date="${it?.dateLungUSTest}"/></small>
                                 </g:if>
                                 <g:else>
                                     Not yet tested

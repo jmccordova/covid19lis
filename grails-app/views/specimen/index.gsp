@@ -47,7 +47,7 @@
                         <tr>
                             <td><input type="checkbox" class="specimens" id="specimen-${it?.id}" value="${it?.id}" /></td>
                             <td>${it?.specimenNum}</td>
-                            <td><g:formatDate format="MMMM dd, YYYY" date="${it?.lastUpdated}"/></td>
+                            <td><g:formatDate format="MMMM d, YYYY" date="${it?.lastUpdated}"/></td>
                             <td>${it?.patientCase?.caseNum}</td>
                             <td>${it?.labTest}</td>
                             <td>${it?.status}</td>

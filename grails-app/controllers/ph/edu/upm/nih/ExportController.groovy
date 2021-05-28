@@ -4,6 +4,7 @@ import ph.edu.upm.nih.covid19lis.info.Specimen
 import ph.edu.upm.nih.Address
 import ph.edu.upm.nih.AddressType
 import ph.edu.upm.nih.covid19lis.info.LabResult
+import ph.edu.upm.nih.covid19lis.patient.PatientCase
 
 import org.springframework.security.access.annotation.Secured
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage
@@ -16,10 +17,12 @@ import pl.touk.excel.export.XlsxExporter
 class ExportController {
 
     def springSecurityService
+    def statisticsService
     public static String TEMPLATE_URL = '/templates/'
     public static String FORM_A_TEMPLATE = "Form A.docx"
     public static String LINE_LIST_TEMPLATE = "Line List.xlsx"
     public static String SOURCE_FILE_TEMPLATE = "Source File.xlsx"
+    public static String CENSUS_TEMPLATE = "Census.xlsx"
 
     /*
     * Sources:
@@ -66,12 +69,12 @@ class ExportController {
 
             currentSheet.with {
                 def i = 1
-                specimenList.each {
+                specimenList?.each {
                     putCellValue(i, 0, it?.specimenNum)
                     putCellValue(i, 1, it?.patientCase?.patient?.lastName)
                     putCellValue(i, 2, it?.patientCase?.patient?.firstName)
                     putCellValue(i, 3, it?.patientCase?.patient?.middleName ? it?.patientCase?.patient?.middleName : '')
-                    putCellValue(i, 4, it?.patientCase?.patient?.birthday?.format("MMM dd, yyyy"))
+                    putCellValue(i, 4, it?.patientCase?.patient?.birthday?.format("MMM d, yyyy"))
                     putCellValue(i, 5, it?.patientCase?.patient?.sex?.toString())
                     def homeAddress = Address.findByPatientAndAddressType(it?.patientCase?.patient, AddressType.CURR_HOME)
                     if(homeAddress) {
@@ -80,10 +83,10 @@ class ExportController {
                         putCellValue(i, 8, homeAddress?.barangay)                        
                     }
                     putCellValue(i, 9, it?.healthFacilityName)
-                    putCellValue(i, 10, it?.patientCase?.dateIllnessOnset?.format("MMM dd, yyyy"))
-                    putCellValue(i, 11, it?.dateCollected?.format("MMM dd, yyyy"))
-                    putCellValue(i, 12, it?.dateCreated?.format("MMM dd, yyyy"))
-                    putCellValue(i, 13, it?.dateReleased ? it?.dateReleased?.format("MMM dd, yyyy") : '')
+                    putCellValue(i, 10, it?.patientCase?.dateIllnessOnset?.format("MMM d, yyyy"))
+                    putCellValue(i, 11, it?.dateCollected?.format("MMM d, yyyy"))
+                    putCellValue(i, 12, it?.dateCreated?.format("MMM d, yyyy"))
+                    putCellValue(i, 13, it?.dateReleased ? it?.dateReleased?.format("MMM d, yyyy") : '')
                     putCellValue(i, 14, it?.labTest?.toString())
                     putCellValue(i, 15, it?.specimenNum)
                     putCellValue(i, 16, it?.labResult.toString())
@@ -125,16 +128,18 @@ class ExportController {
 
             currentSheet.with {
                 def i = 1
-                def now = new Date().format("MMM dd, yyyy")
-                specimenList.each {
+                def now = new Date().format("MMM d, yyyy")
+                
+                specimenList?.each {
+                    putCellValue(i, 1, it?.patientCase?.caseNum)
                     putCellValue(i, 0, it?.patientCase?.caseNum)
                     putCellValue(i, 1, it?.specimenNum)
-                    putCellValue(i, 2, it?.dateCollected?.format("MMM dd, yyyy"))
-                    putCellValue(i, 3, it?.dateCreated?.format("MMM dd, yyyy"))
+                    putCellValue(i, 2, it?.dateCollected?.format("MMM d, yyyy"))
+                    putCellValue(i, 3, it?.dateCreated?.format("MMM d, yyyy"))
                     putCellValue(i, 4, it?.patientCase?.patient?.lastName)
                     putCellValue(i, 5, it?.patientCase?.patient?.firstName)
                     putCellValue(i, 6, it?.patientCase?.patient?.middleName ? it?.patientCase?.patient?.middleName : '')
-                    putCellValue(i, 7, it?.patientCase?.patient?.birthday?.format("MMM dd, yyyy"))
+                    putCellValue(i, 7, it?.patientCase?.patient?.birthday?.format("MMM d, yyyy"))
                     putCellValue(i, 8, it?.patientCase?.patient?.age)
                     putCellValue(i, 9, it?.patientCase?.patient?.sex?.toString())
                     putCellValue(i, 10, it?.labTest?.toString())
@@ -148,8 +153,8 @@ class ExportController {
                     putCellValue(i, 18, it?.approverSUP ? it?.approverSUP?.fullName : '')
                     putCellValue(i, 19, it?.approverSUP ? it?.approverSUP?.prcNum : '')
                     putCellValue(i, 20, it?.approverQA ? it?.approverQA?.fullName : '')
-                    putCellValue(i, 21, it?.dateAnalyzed ? it?.dateAnalyzed?.format("MMM dd, yyyy") : '')
-                    putCellValue(i, 22, it?.dateReleased ? it?.dateReleased?.format("MMM dd, yyyy") : '')
+                    putCellValue(i, 21, it?.dateAnalyzed ? it?.dateAnalyzed?.format("MMM d, yyyy") : '')
+                    putCellValue(i, 22, it?.dateReleased ? it?.dateReleased?.format("MMM d, yyyy") : '')
                     def result
                     if(it?.labResult == LabResult.NEGATIVE) result = 'SARS-CoV-2 viral RNA NOT detected'
                     else if(it?.labResult == LabResult.POSITIVE) result = 'SARS-CoV-2 viral RNA detected'
@@ -158,11 +163,11 @@ class ExportController {
                     putCellValue(i, 24, it?.labResult?.key + " for SARS-CoV-2 (causative agent)")
                     putCellValue(i, 25, it?.extractionKit.brand)
                     putCellValue(i, 26, it?.extractionKit.lotNum)
-                    putCellValue(i, 27, it?.extractionKit.dateExpiration.format("MMM dd, yyyy"))
+                    putCellValue(i, 27, it?.extractionKit.dateExpiration.format("MMM d, yyyy"))
                     if(it?.pcrKit) {
                         putCellValue(i, 28, it?.pcrKit.brand)
                         putCellValue(i, 29, it?.pcrKit.lotNum)
-                        putCellValue(i, 30, it?.pcrKit.dateExpiration.format("MMM dd, yyyy"))                        
+                        putCellValue(i, 30, it?.pcrKit.dateExpiration.format("MMM d, yyyy"))                        
                     }
                     putCellValue(i, 31, it?.specimenRemarks ? it?.specimenRemarks : '')
                     def homeAddress = Address.findByPatientAndAddressType(it?.patientCase?.patient, AddressType.CURR_HOME)
@@ -173,7 +178,7 @@ class ExportController {
                         putCellValue(i, 35, homeAddress?.barangay)
                         putCellValue(i, 36, homeAddress?.cellNumber + "/" + homeAddress?.phoneNumber)
                     }
-                    putCellValue(i, 37, it?.patientCase?.dateIllnessOnset?.format("MMM dd, yyyy"))
+                    putCellValue(i, 37, it?.patientCase?.dateIllnessOnset?.format("MMM d, yyyy"))
                     putCellValue(i, 38, it?.patientCase?.patient?.philHealthNum ? it?.patientCase?.patient?.philHealthNum : '')
                     putCellValue(i, 39, it?.patientCase?.testCategory?.key)
                     putCellValue(i, 40, it?.resultRemarks ? it?.resultRemarks : '')
@@ -189,6 +194,68 @@ class ExportController {
         }
 
         redirect action: 'sourceFile'
+    }
+
+    def census() {
+
+        render view: 'census', model: [facilities: PatientCase.getFacilities()]
+    }
+
+    def generateCensus() {
+        def startDate = params.startDate ? params.date('startDate', 'yyyy-MM-dd') : null
+        def endDate = params.endDate ? params.date('endDate', 'yyyy-MM-dd') : null
+        def statistics 
+
+        if(startDate && endDate && params.facility)
+            statistics = statisticsService.getSpecimenResults(startDate, endDate, params.facility)
+        else if(startDate && !endDate && params.facility)
+            statistics = statisticsService.getSpecimenResults(startDate, params.facility)
+        else if(!startDate && endDate && params.facility)
+            statistics = statisticsService.getSpecimenResults(endDate, params.facility)
+        else if(!startDate && !endDate && params.facility)
+            statistics = statisticsService.getSpecimenResults(params.facility)
+        else
+            statistics = statisticsService.getSpecimenResults()
+
+        def now = new Date().format("MMMM d, yyyy HH:mm:ss")
+
+        println statistics
+
+        def timespan = ''
+        if(startDate) timespan += "From " + startDate.format("MMMM d, yyyy") + " "
+        if(endDate) timespan += "Until " + endDate.format("MMMM d, yyyy")
+
+        def template = grailsAttributes.getApplicationContext().getResource(TEMPLATE_URL + CENSUS_TEMPLATE).getFile().toString()
+        def webXlsx = new WebXlsxExporter(template)
+        def sheetName = "Census"
+        def blankSheet = webXlsx.sheet(sheetName)
+
+        webXlsx.with {
+            setResponseHeaders(response)
+            def workbook = webXlsx.getWorkbook()
+            def currentSheet = sheet(sheetName)
+
+            currentSheet.with {
+                putCellValue(0, 1, timespan ? timespan : 'All time')
+                putCellValue(1, 1, params.facility ? params.facility : 'None specific')
+                putCellValue(2, 1, now)
+
+                def i = 5
+
+                statistics?.each {
+                    putCellValue(i, 0, it?.date)
+                    putCellValue(i, 1, it?.stats?.positive)
+                    putCellValue(i, 3, it?.stats?.negative)
+                    putCellValue(i, 5, it?.stats?.equivocal)
+                    putCellValue(i, 7, it?.stats?.invalid)
+                    i++
+                }
+            }
+
+            response.setContentType('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+            response.setHeader('Content-Disposition', 'Attachment;Filename="Census.xlsx"')
+            save(response.outputStream)
+        }
     }
 
     protected void notFound() {

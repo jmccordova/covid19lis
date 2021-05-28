@@ -119,4 +119,53 @@ class PatientCase {
     	placesVisited nullable: true
     	// contacts nullable: true
     }
+
+    public static def getFacilities() {
+    	def facilities = PatientCase.executeQuery("SELECT diseaseReportingUnit FROM PatientCase GROUP BY diseaseReportingUnit ORDER BY diseaseReportingUnit ASC")
+
+    	facilities
+    }
+
+    public static def getByDateAndFacility(Date start = null, Date end = null, String facility) {
+        def patientCaseList
+        if(start && !end) end = start
+        else if(!start && end) start = end
+
+        if(!start && !end && !facility) {
+            patientCaseList = PatientCase.list()
+        } else if (!start && !end && facility) { 
+        	patientCaseList = PatientCase.executeQuery("FROM PatientCase WHERE diseaseReportingUnit = :facility", [facility: facility])
+        } else if(start && end && !facility) {
+            patientCaseList = PatientCase.executeQuery("FROM PatientCase WHERE dateInterviewed BETWEEN :start AND :end", [start: start, end: end])
+        } else {
+        	patientCaseList = PatientCase.executeQuery("FROM PatientCase WHERE diseaseReportingUnit = :facility AND dateInterviewed BETWEEN :start AND :end", [facility: facility, start: start, end: end])
+        }
+
+        patientCaseList
+    }
+
+    public def getLatestResult() {
+    	this.labTests?.last()?.labResult
+    }
+
+    public def getLatestStatus() {
+    	this.labTests?.last()?.status
+    }
+
+    public def getOrdinal() {
+        def i = patient.patientCase.findIndexOf{it == this} + 1
+        def suffixes = ["th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th"]
+        def ordinal
+        switch (i % 100) {
+        case 11:
+        case 12:
+        case 13:
+            ordinal = i + "th"
+        default:
+            ordinal = i + suffixes[i % 10]
+
+        }
+
+        ordinal
+    }
 }

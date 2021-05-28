@@ -92,4 +92,8 @@ class Patient extends Person {
 
 	    age
     }
+
+    public def getLatestPatientCase() {
+    	this.cases?.last()
+    }
 }

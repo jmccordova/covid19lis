@@ -97,6 +97,7 @@ class SpecimenController {
             case 'rejectSample':
                 specimenInstance?.status = SpecimenStatus.SAMPLE_REJECTED
                 specimenInstance?.labResult = LabResult.REJECT
+                specimenInstance?.dateReleased = new Date()
                 break
             case 'acceptMT1':
                 specimenInstance?.approverMT1 = springSecurityService?.currentUser
@@ -125,6 +126,7 @@ class SpecimenController {
             case 'rejectResult':
                 specimenInstance?.status = SpecimenStatus.RESULT_REJECTED
                 specimenInstance?.labResult = LabResult.REJECT
+                specimenInstance?.dateReleased = new Date()
                 break
             default:
                 break

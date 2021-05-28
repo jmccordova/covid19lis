@@ -40,7 +40,7 @@
                                     ${patientCaseInstance?.caseNum}
                                 </g:link>
                                 <g:if test="${patientCaseInstance}">
-                                    <small>Added <g:formatDate format="MMMM dd, YYYY" date="${patientCaseInstance?.dateCreated}"/></small>
+                                    <small>Added <g:formatDate format="MMMM d, YYYY" date="${patientCaseInstance?.dateCreated}"/></small>
                                 </g:if>
                             </td>
                             <td>

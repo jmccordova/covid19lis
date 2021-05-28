@@ -91,8 +91,8 @@
                             </g:link>
                         </li>
                         <li class="c-sidebar-nav-item">
-                            <g:link class="c-sidebar-nav-link" uri="#">
-                                <span class="c-sidebar-nav-icon cil-"></span> CIF
+                            <g:link class="c-sidebar-nav-link" controller="export" action="census">
+                                <span class="c-sidebar-nav-icon cil-"></span> Census
                             </g:link>
                         </li>
                     </ul>
