@@ -27,6 +27,7 @@ This was a project for a class in my Masters. The original proponent did not fol
     1. Match your database credentials by changing the values in **environment** section (these are divided into three subsections: development, test, and production; change accordingly)
 1. If you are using a different file template for the exports, open src/main/webapp/templates
     1. For DOCX files, make sure to keep the tags _<<Sample_Tag>>_ or else, no data will show up after export
+1. Change the logo to yours by replacing the *grails-app/assets/images/logo.png* and *grails-app/assets/images/favicon.ico* file to what you like
 1. When done, you can generate a deployable war file by: `grails clean && grails compile && grails war`
     1. The code separator above is for Linux; use only `&` for Windows
     1. You can generate a war file for other environments, e.g. test; just use `grails test war`
